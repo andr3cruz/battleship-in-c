@@ -2,10 +2,17 @@
 #define BATTLESHIP_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define WATER '.'
 #define HIT 'X'
 #define MISS '#'
+
+typedef enum
+{
+    FALSE,
+    TRUE
+} Boolean;
 
 typedef struct cell
 {
@@ -14,9 +21,12 @@ typedef struct cell
     int column;
 } Cell;
 
-typedef struct battleship
+typedef struct
 {
     int size;
-};
+    char *name;
+} Battleship;
+
+Cell initializeBoard();
 
 #endif
