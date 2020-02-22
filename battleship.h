@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define WATER '.'
+#define WATER '~'
 #define HIT 'X'
-#define MISS '#'
+#define MISS 'M'
 
 typedef enum
 {
@@ -21,12 +21,14 @@ typedef struct cell
     int column;
 } Cell;
 
-typedef struct
+typedef struct battleship
 {
     int size;
     char *name;
 } Battleship;
 
-Cell initializeBoard();
+void startScreen(void);
+void initializeBoard(int ROWS, int COLS, Cell **board);
+void printBoard(int ROWS, int COLS, Cell **board);
 
 #endif

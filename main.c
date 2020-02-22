@@ -6,7 +6,10 @@ int main(void)
     Cell **playerOneBoard;
     Cell **playerTwoBoard;
 
+    startScreen();
+    printf("Choose number of rows on board\n");
     scanf("%d", &ROWS);
+    printf("Choose number of columns on board\n");
     scanf("%d", &COLS);
 
     playerOneBoard = malloc(ROWS * sizeof(Cell *));
@@ -18,24 +21,9 @@ int main(void)
         playerTwoBoard[i] = malloc(COLS * sizeof(Cell));
     }
 
-    for (int i = 0; i < ROWS; i++)
-        for (int j = 0; j < COLS; j++)
-        {
-            playerOneBoard[i][j].symbol = WATER;
-            playerOneBoard[i][j].row = i;
-            playerOneBoard[i][j].column = j;
-            playerTwoBoard[i][j].symbol = WATER;
-            playerTwoBoard[i][j].row = i;
-            playerTwoBoard[i][j].column = j;
-            if (j == COLS - 1)
-            {
-                printf("(%d,%d)\n", playerOneBoard[i][j].row, playerOneBoard[i][j].column);
-            }
-            else
-                printf("(%d,%d)", playerOneBoard[i][j].row, playerOneBoard[i][j].column);
-        }
-    /*
-    initializeBoard(playerOneBoard);
-    initializeBoard(playerOneBoard);
-    */
+    initializeBoard(ROWS, COLS, playerOneBoard);
+    initializeBoard(ROWS, COLS, playerTwoBoard);
+    printBoard(ROWS, COLS, playerOneBoard);
+    printBoard(ROWS, COLS, playerTwoBoard);
+    return 0;
 }
