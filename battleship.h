@@ -6,7 +6,7 @@
 
 #define WATER '~'
 #define HIT 'X'
-#define MISS 'M'
+#define MISS '*'
 
 typedef enum
 {

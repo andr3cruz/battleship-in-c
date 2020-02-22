@@ -11,6 +11,8 @@ int main(void)
     scanf("%d", &ROWS);
     printf("Choose number of columns on board\n");
     scanf("%d", &COLS);
+    getchar(); // limpar o buffer
+    system("clear");
 
     playerOneBoard = malloc(ROWS * sizeof(Cell *));
     playerTwoBoard = malloc(ROWS * sizeof(Cell *));
@@ -23,7 +25,11 @@ int main(void)
 
     initializeBoard(ROWS, COLS, playerOneBoard);
     initializeBoard(ROWS, COLS, playerTwoBoard);
-    printBoard(ROWS, COLS, playerOneBoard);
     printBoard(ROWS, COLS, playerTwoBoard);
+    printBoard(ROWS, COLS, playerOneBoard);
+    printf(" <ENTER> to continue!\n");
+    getchar();
+    system("clear");
+
     return 0;
 }
