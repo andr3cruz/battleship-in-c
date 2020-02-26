@@ -21,14 +21,16 @@ typedef struct cell
     int column;
 } Cell;
 
-typedef struct battleship
+typedef struct ship
 {
-    int size;
+    int hitpoints;
     char *name;
-} Battleship;
+    int player;
+} Ship;
 
 void startScreen(void);
 void initializeBoard(int ROWS, int COLS, Cell **board);
 void printBoard(int ROWS, int COLS, Cell **board);
+void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS);
 
 #endif
