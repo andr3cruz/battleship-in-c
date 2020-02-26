@@ -16,14 +16,14 @@ void initializeBoard(int ROWS, int COLS, Cell **board)
         }
 }
 
-void printBoard(int ROWS, int COLS, Cell **board)
+void printBoard(int ROWS, int COLS, Player player)
 {
     for (int i = 0; i < ROWS; i++)
     {
 
         for (int j = 0; j < COLS; j++)
         {
-            printf(" %c ", board[i][j].symbol);
+            printf(" %c ", player.board[i][j].symbol);
         }
         putchar('\n');
     }
