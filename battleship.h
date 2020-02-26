@@ -1,12 +1,18 @@
 #ifndef BATTLESHIP_H
 #define BATTLESHIP_H
 
+// INCLUDES
+
 #include <stdio.h>
 #include <stdlib.h>
+
+// MACROS
 
 #define WATER '~'
 #define HIT 'X'
 #define MISS '*'
+
+// STRUCTS
 
 typedef enum
 {
@@ -14,19 +20,19 @@ typedef enum
     TRUE
 } Boolean;
 
+typedef struct ship
+{
+    int hitpoints;
+    char *name;
+} Ship;
+
 typedef struct cell
 {
     char symbol;
     int row;
     int column;
+    Ship ship;
 } Cell;
-
-typedef struct ship
-{
-    int hitpoints;
-    char *name;
-    int player;
-} Ship;
 
 typedef struct player
 {
@@ -35,9 +41,16 @@ typedef struct player
     Ship *ship;
 } Player;
 
+// PROTOTYPES
+
 void startScreen(void);
 void initializeBoard(int ROWS, int COLS, Cell **board);
 void printBoard(int ROWS, int COLS, Player player);
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS);
+Boolean checkSpotsUp(Player player, int i, int x, int y);
+Boolean checkSpotsDown(Player player, int i, int x, int y);
+Boolean checkSpotsLeft(Player player, int i, int x, int y);
+Boolean checkSpotsRight(Player player, int i, int x, int y);
+void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
 
 #endif

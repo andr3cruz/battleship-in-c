@@ -32,93 +32,115 @@ void printBoard(int ROWS, int COLS, Player player)
 
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS)
 {
-    int CARRIER_TEMP = CARRIER;
-    int BATTLESHIP_TEMP = BATTLESHIP;
-    int CRUISER_TEMP = CRUISER;
-    int SUBMARINE_TEMP = SUBMARINE;
-    int DESTROYER_TEMP = DESTROYER;
-
     for (int i = 0; i < NUM_SHIPS; i++) // PLAYER 1 SHIPS
     {
-        if (CARRIER_TEMP > 0)
+        if (CARRIER > 0)
         {
             watership[i].hitpoints = 5;
             watership[i].name = "Carrier";
-            watership[i].player = 1;
-            CARRIER_TEMP--;
+            CARRIER--;
         }
-        else if (BATTLESHIP_TEMP > 0)
+        else if (BATTLESHIP > 0)
         {
             watership[i].hitpoints = 4;
             watership[i].name = "Battleship";
-            watership[i].player = 1;
-            BATTLESHIP_TEMP--;
+            BATTLESHIP--;
         }
-        else if (CRUISER_TEMP > 0)
+        else if (CRUISER > 0)
         {
             watership[i].hitpoints = 3;
             watership[i].name = "Cruiser";
-            watership[i].player = 1;
-            CRUISER_TEMP--;
+            CRUISER--;
         }
-        else if (SUBMARINE_TEMP > 0)
+        else if (SUBMARINE > 0)
         {
             watership[i].hitpoints = 3;
             watership[i].name = "Submarine";
-            watership[i].player = 1;
-            SUBMARINE_TEMP--;
+            SUBMARINE--;
         }
-        else if (DESTROYER_TEMP > 0)
+        else if (DESTROYER > 0)
         {
             watership[i].hitpoints = 2;
             watership[i].name = "Destroyer";
-            watership[i].player = 1;
-            DESTROYER_TEMP--;
+            DESTROYER--;
         }
     }
+}
 
-    CARRIER_TEMP = CARRIER;
-    BATTLESHIP_TEMP = BATTLESHIP;
-    CRUISER_TEMP = CRUISER;
-    SUBMARINE_TEMP = SUBMARINE;
-    DESTROYER_TEMP = DESTROYER;
-
-    for (int i = NUM_SHIPS; i < NUM_SHIPS * 2; i++) // PLAYER 2 SHIPS
+Boolean checkSpotsUp(Player player, int i, int x, int y)
+{
+    for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
     {
-        if (CARRIER_TEMP > 0)
+        if (player.board[y - 2][x - 1].symbol != WATER)
+            return FALSE;
+        y--;
+    }
+    return TRUE;
+}
+
+Boolean checkSpotsDown(Player player, int i, int x, int y)
+{
+    for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+    {
+        if (player.board[y][x - 1].symbol != WATER)
+            return FALSE;
+        y++;
+    }
+    return TRUE;
+}
+
+Boolean checkSpotsLeft(Player player, int i, int x, int y)
+{
+    for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+    {
+        if (player.board[y - 1][x - 2].symbol != WATER)
+            return FALSE;
+        x--;
+    }
+    return TRUE;
+}
+
+Boolean checkSpotsRight(Player player, int i, int x, int y)
+{
+    for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+    {
+        if (player.board[y - 1][x].symbol != WATER)
+            return FALSE;
+        x++;
+    }
+    return TRUE;
+}
+
+void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
+{
+    int x, y, input;
+    for (int i = 0; i < NUM_SHIPS; i++)
+    {
+        printBoard(ROWS, COLS, player);
+        printf("Type the numerical coordinate X of where you want to place your ship");
+        scanf("%d", &x);
+        printf("Type the numerical coordinate Y of where you want to place your ship");
+        scanf("%d", &y);
+        player.board[y - 1][x - 1].symbol = HIT;
+        printBoard(ROWS, COLS, player);
+        printf("Place it:\n");
+        if (player.ship[0].hitpoints <= y && (checkSpotsUp(player, 0, x, y) == TRUE))
+            printf("1) UP\n");
+        if ((player.ship[0].hitpoints <= ROWS - y + 1) && (checkSpotsDown(player, 0, x, y) == TRUE))
+            printf("2) DOWN\n");
+        if (player.ship[0].hitpoints <= x && (checkSpotsLeft(player, 0, x, y) == TRUE))
+            printf("3) LEFT\n");
+        if ((player.ship[0].hitpoints <= COLS - x + 1) && (checkSpotsRight(player, 0, x, y) == TRUE))
+            printf("4) RIGHT\n");
+        scanf("%d", &input);
+        switch (input)
         {
-            watership[i].hitpoints = 5;
-            watership[i].name = "Carrier";
-            watership[i].player = 2;
-            CARRIER_TEMP--;
-        }
-        else if (BATTLESHIP_TEMP > 0)
-        {
-            watership[i].hitpoints = 4;
-            watership[i].name = "Battleship";
-            watership[i].player = 2;
-            BATTLESHIP_TEMP--;
-        }
-        else if (CRUISER_TEMP > 0)
-        {
-            watership[i].hitpoints = 3;
-            watership[i].name = "Cruiser";
-            watership[i].player = 2;
-            CRUISER_TEMP--;
-        }
-        else if (SUBMARINE_TEMP > 0)
-        {
-            watership[i].hitpoints = 3;
-            watership[i].name = "Submarine";
-            watership[i].player = 2;
-            SUBMARINE_TEMP--;
-        }
-        else if (DESTROYER_TEMP > 0)
-        {
-            watership[i].hitpoints = 2;
-            watership[i].name = "Destroyer";
-            watership[i].player = 2;
-            DESTROYER_TEMP--;
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        default:
+            break;
         }
     }
 }

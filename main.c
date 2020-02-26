@@ -75,5 +75,8 @@ int main(void)
     player1.ship = watership1;
     player2.ship = watership2;
 
+    // player1.board[0][2].symbol = '*';
+    manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
+
     return 0;
 }
