@@ -129,6 +129,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
         printBoard(ROWS, COLS, player);
         printf("Type the numerical coordinate X of where you want to place your ship\n");
         scanf("%d", &x);
+        getchar();
         printf("Type the numerical coordinate Y of where you want to place your ship\n");
         scanf("%d", &y);
         getchar();
@@ -247,6 +248,93 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 printf("Press <ENTER> to continue!");
                 getchar();
                 system("clear");
+                break;
+            }
+            system("clear");
+        }
+    }
+}
+
+void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
+{
+    int x, y;
+    for (int i = 0; i < NUM_SHIPS; i++)
+    {
+        srandom(clock());
+        int x = random() % COLS + 1;
+        int y = random() % ROWS + 1;
+        int option = random() % 4 + 1;
+        if ((player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, ROWS, COLS, i, x, y) == TRUE))
+        {
+            i--;
+        }
+        else
+        {
+            switch (option)
+            {
+            case 1:
+                if (player.ship[i].hitpoints <= y && (checkSpotsUp(player, i, x, y) == TRUE))
+                {
+                    for (int j = 0; j < player.ship[i].hitpoints; j++)
+                    {
+                        player.board[y - 1][x - 1].symbol = HIT;
+                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        y--;
+                    }
+                }
+                else
+                {
+                    i--;
+                }
+                break;
+            case 2:
+                if ((player.ship[i].hitpoints <= ROWS - y + 1) && (checkSpotsDown(player, i, x, y) == TRUE))
+                {
+
+                    for (int j = 0; j < player.ship[i].hitpoints; j++)
+                    {
+                        player.board[y - 1][x - 1].symbol = HIT;
+                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        y++;
+                    }
+                }
+                else
+                {
+                    i--;
+                }
+                break;
+
+            case 3:
+                if (player.ship[i].hitpoints <= x && (checkSpotsLeft(player, i, x, y) == TRUE))
+                {
+                    for (int j = 0; j < player.ship[i].hitpoints; j++)
+                    {
+                        player.board[y - 1][x - 1].symbol = HIT;
+                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        x--;
+                    }
+                }
+                else
+                {
+                    i--;
+                }
+                break;
+            case 4:
+                if ((player.ship[i].hitpoints <= COLS - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
+                {
+                    for (int j = 0; j < player.ship[i].hitpoints; j++)
+                    {
+                        player.board[y - 1][x - 1].symbol = HIT;
+                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        x++;
+                    }
+                }
+                else
+                {
+                    i--;
+                }
+                break;
+            default:
                 break;
             }
             system("clear");

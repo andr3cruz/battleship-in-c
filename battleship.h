@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 // MACROS
 
@@ -53,5 +54,6 @@ Boolean checkSpotsLeft(Player player, int i, int x, int y);
 Boolean checkSpotsRight(Player player, int i, int x, int y);
 Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y);
 void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
+void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
 
 #endif

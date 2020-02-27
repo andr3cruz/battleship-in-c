@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    int ROWS, COLS, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS;
+    int input, ROWS, COLS, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS;
     Cell **playerOneBoard;
     Cell **playerTwoBoard;
     Ship *watership1;
@@ -12,16 +12,11 @@ int main(void)
 
     // DISPLAYS THE FIRST TEXT SCREEN
     startScreen();
-
     //GETS THE NUMBER OF ROWS AND COLUMNS FOR THE BOARDS
     printf("Choose number of rows on board\n");
     scanf("%d", &ROWS);
     printf("Choose number of columns on board\n");
     scanf("%d", &COLS);
-    /*
-    getchar();       // CLEANS BUFFER
-    system("clear"); // CLEARS THE TERMINAL (ctrl + l)
-    */
 
     // DINAMICALLY ALLOCATES MEMORY FOR EACH PLAYER BOARD
     playerOneBoard = malloc(ROWS * sizeof(Cell *));
@@ -38,14 +33,6 @@ int main(void)
     initializeBoard(ROWS, COLS, playerOneBoard);
     initializeBoard(ROWS, COLS, playerTwoBoard);
 
-    /*
-    printBoard(ROWS, COLS, player1);
-    printBoard(ROWS, COLS, player2);
-    printf("Press <ENTER> to continue!");
-    getchar();
-    system("clear");
-    */
-
     // GETS HOW MANY SHIPS OF EACH KIND TO CREATE
     printf("Choose number of Carriers\n");
     scanf("%d", &CARRIER);
@@ -57,7 +44,6 @@ int main(void)
     scanf("%d", &SUBMARINE);
     printf("Choose number of Destroyers\n");
     scanf("%d", &DESTROYER);
-    system("clear");
     NUM_SHIPS = CARRIER + BATTLESHIP + CRUISER + SUBMARINE + DESTROYER;
 
     // DINAMICALLY ALLOCATES MEMORY FOR EACH SHIP
@@ -76,18 +62,39 @@ int main(void)
     player1.ship = watership1;
     player2.ship = watership2;
 
-    // player1.board[0][2].symbol = '*';
-    manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
-    manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player2);
+    //CHECKS IF SHIPS CAN FIT ON THE BOARD
+    if (player1.hitpoints >= ROWS * COLS)
+    {
+        printf("ERROR: Ships don't fit on board size given\n");
+        return;
+    }
+
+    //CHOOSE SHIP PLACEMENT MODE
+    printf("1) Place ships MANUALLY\n");
+    printf("2) Place ships RANDOMLY\n");
+    scanf("%d", &input);
+    system("clear");
+
+    switch (input)
+    {
+    case 1:
+        manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
+        manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player2);
+        break;
+    case 2:
+        randomlyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
+        randomlyPlaceShips(ROWS, COLS, NUM_SHIPS, player2);
+        break;
+    default:
+        break;
+    }
+
     printBoard(ROWS, COLS, player1);
     printBoard(ROWS, COLS, player2);
 
-    // Resets symbols to WATER
+    // RESETS SYMBOLS TO WATER
     initializeBoard(ROWS, COLS, player1.board);
     initializeBoard(ROWS, COLS, player2.board);
-
-    printBoard(ROWS, COLS, player1);
-    printBoard(ROWS, COLS, player2);
 
     return 0;
 }
