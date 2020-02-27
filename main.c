@@ -57,6 +57,7 @@ int main(void)
     scanf("%d", &SUBMARINE);
     printf("Choose number of Destroyers\n");
     scanf("%d", &DESTROYER);
+    system("clear");
     NUM_SHIPS = CARRIER + BATTLESHIP + CRUISER + SUBMARINE + DESTROYER;
 
     // DINAMICALLY ALLOCATES MEMORY FOR EACH SHIP

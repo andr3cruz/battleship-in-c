@@ -127,17 +127,22 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
     for (int i = 0; i < NUM_SHIPS; i++)
     {
         printBoard(ROWS, COLS, player);
-        printf("Type the numerical coordinate X of where you want to place your ship");
+        printf("Type the numerical coordinate X of where you want to place your ship\n");
         scanf("%d", &x);
-        printf("Type the numerical coordinate Y of where you want to place your ship");
+        printf("Type the numerical coordinate Y of where you want to place your ship\n");
         scanf("%d", &y);
+        getchar();
         if ((player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, ROWS, COLS, i, x, y) == TRUE))
         {
-            printf("%s", "Invalid operation\n");
             i--;
+            printf("Invalid operation\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
         }
         else
         {
+            system("clear");
             player.board[y - 1][x - 1].symbol = HIT;
             player.board[y - 1][x - 1].ship = player.ship[i];
             printBoard(ROWS, COLS, player);
@@ -188,6 +193,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
             default:
                 break;
             }
+            system("clear");
         }
     }
 }
