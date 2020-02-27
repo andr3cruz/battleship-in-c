@@ -77,6 +77,16 @@ int main(void)
 
     // player1.board[0][2].symbol = '*';
     manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
+    manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player2);
+    printBoard(ROWS, COLS, player1);
+    printBoard(ROWS, COLS, player2);
+
+    // Resets symbols to WATER
+    initializeBoard(ROWS, COLS, player1.board);
+    initializeBoard(ROWS, COLS, player2.board);
+
+    printBoard(ROWS, COLS, player1);
+    printBoard(ROWS, COLS, player2);
 
     return 0;
 }

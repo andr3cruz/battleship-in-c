@@ -51,6 +51,7 @@ Boolean checkSpotsUp(Player player, int i, int x, int y);
 Boolean checkSpotsDown(Player player, int i, int x, int y);
 Boolean checkSpotsLeft(Player player, int i, int x, int y);
 Boolean checkSpotsRight(Player player, int i, int x, int y);
+Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y);
 void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
 
 #endif

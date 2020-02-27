@@ -111,6 +111,16 @@ Boolean checkSpotsRight(Player player, int i, int x, int y)
     return TRUE;
 }
 
+Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y)
+{
+    if ((player.ship[i].hitpoints > y || (checkSpotsUp(player, i, x, y) == FALSE)) &&
+        ((player.ship[i].hitpoints > ROWS - y + 1) || (checkSpotsDown(player, i, x, y) == FALSE)) &&
+        (player.ship[i].hitpoints > x || (checkSpotsLeft(player, i, x, y) == FALSE)) &&
+        ((player.ship[i].hitpoints > COLS - x + 1) || (checkSpotsRight(player, i, x, y) == FALSE)))
+        return TRUE;
+    return FALSE;
+}
+
 void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 {
     int x, y, input;
@@ -121,26 +131,63 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
         scanf("%d", &x);
         printf("Type the numerical coordinate Y of where you want to place your ship");
         scanf("%d", &y);
-        player.board[y - 1][x - 1].symbol = HIT;
-        printBoard(ROWS, COLS, player);
-        printf("Place it:\n");
-        if (player.ship[0].hitpoints <= y && (checkSpotsUp(player, 0, x, y) == TRUE))
-            printf("1) UP\n");
-        if ((player.ship[0].hitpoints <= ROWS - y + 1) && (checkSpotsDown(player, 0, x, y) == TRUE))
-            printf("2) DOWN\n");
-        if (player.ship[0].hitpoints <= x && (checkSpotsLeft(player, 0, x, y) == TRUE))
-            printf("3) LEFT\n");
-        if ((player.ship[0].hitpoints <= COLS - x + 1) && (checkSpotsRight(player, 0, x, y) == TRUE))
-            printf("4) RIGHT\n");
-        scanf("%d", &input);
-        switch (input)
+        if ((player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, ROWS, COLS, i, x, y) == TRUE))
         {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        default:
-            break;
+            printf("%s", "Invalid operation\n");
+            i--;
+        }
+        else
+        {
+            player.board[y - 1][x - 1].symbol = HIT;
+            player.board[y - 1][x - 1].ship = player.ship[i];
+            printBoard(ROWS, COLS, player);
+            printf("Place it:\n");
+            if (player.ship[i].hitpoints <= y && (checkSpotsUp(player, i, x, y) == TRUE))
+                printf("1) UP\n");
+            if ((player.ship[i].hitpoints <= ROWS - y + 1) && (checkSpotsDown(player, i, x, y) == TRUE))
+                printf("2) DOWN\n");
+            if (player.ship[i].hitpoints <= x && (checkSpotsLeft(player, i, x, y) == TRUE))
+                printf("3) LEFT\n");
+            if ((player.ship[i].hitpoints <= COLS - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
+                printf("4) RIGHT\n");
+            scanf("%d", &input);
+            switch (input)
+            {
+            case 1:
+                for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+                {
+                    player.board[y - 2][x - 1].symbol = HIT;
+                    player.board[y - 2][x - 1].ship = player.ship[i];
+                    y--;
+                }
+                break;
+            case 2:
+                for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+                {
+                    player.board[y][x - 1].symbol = HIT;
+                    player.board[y][x - 1].ship = player.ship[i];
+                    y++;
+                }
+                break;
+            case 3:
+                for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+                {
+                    player.board[y - 1][x - 2].symbol = HIT;
+                    player.board[y - 1][x - 2].ship = player.ship[i];
+                    x--;
+                }
+                break;
+            case 4:
+                for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+                {
+                    player.board[y - 1][x].symbol = HIT;
+                    player.board[y - 1][x].ship = player.ship[i];
+                    x++;
+                }
+                break;
+            default:
+                break;
+            }
         }
     }
 }
