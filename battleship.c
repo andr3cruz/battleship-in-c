@@ -132,7 +132,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
         printf("Type the numerical coordinate Y of where you want to place your ship\n");
         scanf("%d", &y);
         getchar();
-        if ((player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, ROWS, COLS, i, x, y) == TRUE))
+        if ((y > ROWS) || (x > COLS) || (x <= 0) || (y <= 0) || (player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, ROWS, COLS, i, x, y) == TRUE))
         {
             i--;
             printf("Invalid operation\n");
@@ -143,8 +143,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
         else
         {
             system("clear");
-            player.board[y - 1][x - 1].symbol = HIT;
-            player.board[y - 1][x - 1].ship = player.ship[i];
+            player.board[y - 1][x - 1].symbol = 'O';
             printBoard(ROWS, COLS, player);
             printf("Place it:\n");
             if (player.ship[i].hitpoints <= y && (checkSpotsUp(player, i, x, y) == TRUE))
@@ -156,37 +155,50 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
             if ((player.ship[i].hitpoints <= COLS - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
                 printf("4) RIGHT\n");
             scanf("%d", &input);
+            getchar();
             switch (input)
             {
             case 1:
-                for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+                if (player.ship[i].hitpoints <= y && (checkSpotsUp(player, i, x, y) == TRUE))
                 {
-                    player.board[y - 2][x - 1].symbol = HIT;
-                    player.board[y - 2][x - 1].ship = player.ship[i];
-                    y--;
+                    for (int j = 0; j < player.ship[i].hitpoints; j++)
+                    {
+                        player.board[y - 1][x - 1].symbol = HIT;
+                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        y--;
+                    }
+                    break;
                 }
-                break;
-            case 2:
-                for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+                else
                 {
-                    player.board[y][x - 1].symbol = HIT;
-                    player.board[y][x - 1].ship = player.ship[i];
+                    player.board[y - 1][x - 1].symbol = WATER;
+                    i--;
+                    printf("Invalid operation\n");
+                    printf("Press <ENTER> to continue!");
+                    getchar();
+                    system("clear");
+                }
+            case 2:
+                for (int j = 0; j < player.ship[i].hitpoints; j++)
+                {
+                    player.board[y - 1][x - 1].symbol = HIT;
+                    player.board[y - 1][x - 1].ship = player.ship[i];
                     y++;
                 }
                 break;
             case 3:
-                for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+                for (int j = 0; j < player.ship[i].hitpoints; j++)
                 {
-                    player.board[y - 1][x - 2].symbol = HIT;
-                    player.board[y - 1][x - 2].ship = player.ship[i];
+                    player.board[y - 1][x - 1].symbol = HIT;
+                    player.board[y - 1][x - 1].ship = player.ship[i];
                     x--;
                 }
                 break;
             case 4:
-                for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
+                for (int j = 0; j < player.ship[i].hitpoints; j++)
                 {
-                    player.board[y - 1][x].symbol = HIT;
-                    player.board[y - 1][x].ship = player.ship[i];
+                    player.board[y - 1][x - 1].symbol = HIT;
+                    player.board[y - 1][x - 1].ship = player.ship[i];
                     x++;
                 }
                 break;
