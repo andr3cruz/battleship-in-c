@@ -66,7 +66,7 @@ int main(void)
     if (player1.hitpoints >= ROWS * COLS)
     {
         printf("ERROR: Ships don't fit on board size given\n");
-        return;
+        return 1;
     }
 
     //CHOOSE SHIP PLACEMENT MODE
