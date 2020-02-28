@@ -3,6 +3,7 @@
 int main(void)
 {
     int input, ROWS, COLS, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS;
+    int turn = 1;
     Cell **playerOneBoard;
     Cell **playerTwoBoard;
     Cell **playerOneBoardAux;
@@ -83,6 +84,7 @@ int main(void)
     printf("1) Place ships MANUALLY\n");
     printf("2) Place ships RANDOMLY\n");
     scanf("%d", &input);
+    getchar();
     system("clear");
 
     switch (input)
@@ -99,8 +101,33 @@ int main(void)
         break;
     }
 
-    printBoard(ROWS, COLS, player1.auxboard);
-    printBoard(ROWS, COLS, player1.board);
+    while (player1.hitpoints >= 0 || player2.hitpoints >= 0)
+    {
+        if (turn == 1)
+        {
+            printf("WAITING FOR PLAYER 1\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+            printBoard(ROWS, COLS, player1.auxboard);
+            printBoard(ROWS, COLS, player1.board);
+            printf("Player 1's turn!\n");
+            play(player1, player2, ROWS, COLS);
+            turn = 2;
+        }
+        else if (turn == 2)
+        {
+            printf("WAITING FOR PLAYER 2\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+            printBoard(ROWS, COLS, player2.auxboard);
+            printBoard(ROWS, COLS, player2.board);
+            printf("Player 2's turn!\n");
+            play(player2, player1, ROWS, COLS);
+            turn = 1;
+        }
+    }
 
     return 0;
 }

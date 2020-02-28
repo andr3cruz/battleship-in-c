@@ -24,7 +24,7 @@ void printBoard(int ROWS, int COLS, Cell **board)
 
         for (int j = 0; j < COLS; j++)
         {
-            printf(" %c ", board[i][j].symbol);
+            printf(" %c", board[i][j].symbol);
         }
         putchar('\n');
     }
@@ -165,8 +165,8 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = HIT;
-                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].ship = i;
                         y--;
                     }
                 }
@@ -186,8 +186,8 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = HIT;
-                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].ship = i;
                         y++;
                     }
                 }
@@ -207,8 +207,8 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = HIT;
-                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].ship = i;
                         x--;
                     }
                 }
@@ -227,8 +227,8 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = HIT;
-                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].ship = i;
                         x++;
                     }
                 }
@@ -278,8 +278,8 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = HIT;
-                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].ship = i;
                         y--;
                     }
                 }
@@ -294,8 +294,8 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = HIT;
-                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].ship = i;
                         y++;
                     }
                 }
@@ -310,8 +310,8 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = HIT;
-                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].ship = i;
                         x--;
                     }
                 }
@@ -325,8 +325,8 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = HIT;
-                        player.board[y - 1][x - 1].ship = player.ship[i];
+                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].ship = i;
                         x++;
                     }
                 }
@@ -340,5 +340,62 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
             }
             system("clear");
         }
+    }
+}
+
+void play(Player player1, Player player2, int ROWS, int COLS)
+{
+    int x, y;
+    printf("Type the numerical coordinate X of where you want to ATTACK\n");
+    scanf("%d", &x);
+    getchar();
+    printf("Type the numerical coordinate Y of where you want to ATTACK\n");
+    scanf("%d", &y);
+    getchar();
+    int i = player2.board[y - 1][x - 1].ship;
+
+    switch (player2.board[y - 1][x - 1].symbol)
+    {
+    case WATER:
+        player2.board[y - 1][x - 1].symbol = MISS;
+        player1.auxboard[y - 1][x - 1].symbol = MISS;
+        system("clear");
+        printBoard(ROWS, COLS, player1.auxboard);
+        printBoard(ROWS, COLS, player1.board);
+        printf("You MISSED!\n");
+        printf("Press <ENTER> to continue!");
+        getchar();
+        system("clear");
+        break;
+
+    case 'O':
+        player2.board[y - 1][x - 1].symbol = HIT;
+        player1.auxboard[y - 1][x - 1].symbol = HIT;
+        player2.ship[i].hitpoints--;
+        player2.hitpoints--;
+        if (player2.ship[i].hitpoints <= 0)
+        {
+            system("clear");
+            printBoard(ROWS, COLS, player1.auxboard);
+            printBoard(ROWS, COLS, player1.board);
+            printf("You destroyed the enemy's %s!\n", player2.ship[i].name);
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+        }
+        else
+        {
+            system("clear");
+            printBoard(ROWS, COLS, player1.auxboard);
+            printBoard(ROWS, COLS, player1.board);
+            printf("You HIT an enemy's ship! It has %d lifepoints left\n", player2.ship[i].hitpoints);
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+        }
+        break;
+
+    default:
+        break;
     }
 }
