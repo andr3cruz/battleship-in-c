@@ -24,7 +24,7 @@ void printBoard(int ROWS, int COLS, Cell **board)
 
         for (int j = 0; j < COLS; j++)
         {
-            printf(" %c", board[i][j].symbol);
+            printf("%c ", board[i][j].symbol);
         }
         putchar('\n');
     }

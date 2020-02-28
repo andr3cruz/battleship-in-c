@@ -101,6 +101,7 @@ int main(void)
         break;
     }
 
+    //CHANGES TURNS BETWEEN PLAYERS
     while (player1.hitpoints >= 0 || player2.hitpoints >= 0)
     {
         if (turn == 1)
@@ -127,6 +128,22 @@ int main(void)
             play(player2, player1, ROWS, COLS);
             turn = 1;
         }
+    }
+
+    //ENDGAME CONDITIONS
+    if (player1.hitpoints <= 0)
+    {
+        system("clear");
+        printf("CONGRATULATIONS, PLAYER 2 WINS!\n");
+        printf("Press <ENTER> to end program!");
+        getchar();
+    }
+    else if (player2.hitpoints <= 0)
+    {
+        system("clear");
+        printf("CONGRATULATIONS, PLAYER 1 WINS!\n");
+        printf("Press <ENTER> to end program!");
+        getchar();
     }
 
     return 0;
