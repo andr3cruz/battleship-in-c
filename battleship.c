@@ -2,7 +2,8 @@
 
 void startScreen(void)
 {
-    printf("Welcome to Battleship in C!\n");
+    system("clear");
+    printf("Welcome to Battleship in C!\n\n");
 }
 
 void initializeBoard(int ROWS, int COLS, Cell **board)
@@ -16,14 +17,14 @@ void initializeBoard(int ROWS, int COLS, Cell **board)
         }
 }
 
-void printBoard(int ROWS, int COLS, Player player)
+void printBoard(int ROWS, int COLS, Cell **board)
 {
     for (int i = 0; i < ROWS; i++)
     {
 
         for (int j = 0; j < COLS; j++)
         {
-            printf(" %c ", player.board[i][j].symbol);
+            printf(" %c ", board[i][j].symbol);
         }
         putchar('\n');
     }
@@ -126,7 +127,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
     int x, y, input;
     for (int i = 0; i < NUM_SHIPS; i++)
     {
-        printBoard(ROWS, COLS, player);
+        printBoard(ROWS, COLS, player.board);
         printf("Type the numerical coordinate X of where you want to place your ship\n");
         scanf("%d", &x);
         getchar();
@@ -145,7 +146,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
         {
             system("clear");
             player.board[y - 1][x - 1].symbol = 'O';
-            printBoard(ROWS, COLS, player);
+            printBoard(ROWS, COLS, player.board);
             printf("Place it:\n");
             if (player.ship[i].hitpoints <= y && (checkSpotsUp(player, i, x, y) == TRUE))
                 printf("1) UP\n");

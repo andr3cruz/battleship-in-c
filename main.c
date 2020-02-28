@@ -5,6 +5,8 @@ int main(void)
     int input, ROWS, COLS, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS;
     Cell **playerOneBoard;
     Cell **playerTwoBoard;
+    Cell **playerOneBoardAux;
+    Cell **playerTwoBoardAux;
     Ship *watership1;
     Ship *watership2;
     Player player1;
@@ -21,17 +23,23 @@ int main(void)
     // DINAMICALLY ALLOCATES MEMORY FOR EACH PLAYER BOARD
     playerOneBoard = malloc(ROWS * sizeof(Cell *));
     playerTwoBoard = malloc(ROWS * sizeof(Cell *));
+    playerOneBoardAux = malloc(ROWS * sizeof(Cell *));
+    playerTwoBoardAux = malloc(ROWS * sizeof(Cell *));
 
     for (int i = 0; i < ROWS; i++)
     {
         playerOneBoard[i] = malloc(COLS * sizeof(Cell));
         playerTwoBoard[i] = malloc(COLS * sizeof(Cell));
+        playerOneBoardAux[i] = malloc(COLS * sizeof(Cell));
+        playerTwoBoardAux[i] = malloc(COLS * sizeof(Cell));
     }
 
     // INITIALIZES THE BOARDS
 
     initializeBoard(ROWS, COLS, playerOneBoard);
     initializeBoard(ROWS, COLS, playerTwoBoard);
+    initializeBoard(ROWS, COLS, playerOneBoardAux);
+    initializeBoard(ROWS, COLS, playerTwoBoardAux);
 
     // GETS HOW MANY SHIPS OF EACH KIND TO CREATE
     printf("Choose number of Carriers\n");
@@ -59,6 +67,8 @@ int main(void)
     player2.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
     player1.board = playerOneBoard;
     player2.board = playerTwoBoard;
+    player1.auxboard = playerOneBoardAux;
+    player2.auxboard = playerTwoBoardAux;
     player1.ship = watership1;
     player2.ship = watership2;
 
@@ -89,12 +99,8 @@ int main(void)
         break;
     }
 
-    printBoard(ROWS, COLS, player1);
-    printBoard(ROWS, COLS, player2);
-
-    // RESETS SYMBOLS TO WATER
-    initializeBoard(ROWS, COLS, player1.board);
-    initializeBoard(ROWS, COLS, player2.board);
+    printBoard(ROWS, COLS, player1.auxboard);
+    printBoard(ROWS, COLS, player1.board);
 
     return 0;
 }
