@@ -343,7 +343,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
     }
 }
 
-void play(Player player1, Player player2, int ROWS, int COLS)
+void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
 {
     int x, y;
     printf("Type the numerical coordinate X of where you want to ATTACK\n");
@@ -352,50 +352,75 @@ void play(Player player1, Player player2, int ROWS, int COLS)
     printf("Type the numerical coordinate Y of where you want to ATTACK\n");
     scanf("%d", &y);
     getchar();
-    int i = player2.board[y - 1][x - 1].ship;
-
-    switch (player2.board[y - 1][x - 1].symbol)
+    if (y > ROWS || x > COLS)
     {
-    case WATER:
-        player2.board[y - 1][x - 1].symbol = MISS;
-        player1.auxboard[y - 1][x - 1].symbol = MISS;
-        system("clear");
-        printBoard(ROWS, COLS, player1.auxboard);
-        printBoard(ROWS, COLS, player1.board);
-        printf("You MISSED!\n");
+        printf("Invalid operation\n");
         printf("Press <ENTER> to continue!");
         getchar();
         system("clear");
-        break;
+    }
+    else
+    {
+        int i = player2.board[y - 1][x - 1].ship;
 
-    case 'O':
-        player2.board[y - 1][x - 1].symbol = HIT;
-        player1.auxboard[y - 1][x - 1].symbol = HIT;
-        player2.ship[i].hitpoints--;
-        player2.hitpoints--;
-        if (player2.ship[i].hitpoints <= 0)
+        switch (player2.board[y - 1][x - 1].symbol)
         {
+        case WATER:
+            player2.board[y - 1][x - 1].symbol = MISS;
+            player1.auxboard[y - 1][x - 1].symbol = MISS;
             system("clear");
             printBoard(ROWS, COLS, player1.auxboard);
             printBoard(ROWS, COLS, player1.board);
-            printf("You destroyed the enemy's %s!\n", player2.ship[i].name);
+            printf("You MISSED!\n");
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
-        }
-        else
-        {
+            if (*turn == 1)
+                *turn = 2;
+            else
+                *turn = 1;
+            break;
+
+        case 'O':
+            player2.board[y - 1][x - 1].symbol = HIT;
+            player1.auxboard[y - 1][x - 1].symbol = HIT;
+            player2.ship[i].hitpoints--;
+            player2.hitpoints--;
+            if (player2.ship[i].hitpoints <= 0)
+            {
+                system("clear");
+                printBoard(ROWS, COLS, player1.auxboard);
+                printBoard(ROWS, COLS, player1.board);
+                printf("You destroyed the enemy's %s!\n", player2.ship[i].name);
+                printf("Press <ENTER> to continue!");
+                getchar();
+                system("clear");
+            }
+            else
+            {
+                system("clear");
+                printBoard(ROWS, COLS, player1.auxboard);
+                printBoard(ROWS, COLS, player1.board);
+                printf("You HIT an enemy's ship!\n", player2.ship[i].hitpoints);
+                printf("Press <ENTER> to continue!");
+                getchar();
+                system("clear");
+            }
+            if (*turn == 1)
+                *turn = 2;
+            else
+                *turn = 1;
+            break;
+
+        default:
             system("clear");
             printBoard(ROWS, COLS, player1.auxboard);
             printBoard(ROWS, COLS, player1.board);
-            printf("You HIT an enemy's ship! It has %d lifepoints left\n", player2.ship[i].hitpoints);
+            printf("INVALID PLAY!\n");
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
+            break;
         }
-        break;
-
-    default:
-        break;
     }
 }

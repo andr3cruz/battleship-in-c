@@ -56,6 +56,6 @@ Boolean checkSpotsRight(Player player, int i, int x, int y);
 Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y);
 void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
 void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
-void play(Player player1, Player player2, int ROWS, int COLS);
+void play(Player player1, Player player2, int ROWS, int COLS, int *turn);
 
 #endif

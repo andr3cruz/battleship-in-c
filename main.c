@@ -113,8 +113,7 @@ int main(void)
             printBoard(ROWS, COLS, player1.auxboard);
             printBoard(ROWS, COLS, player1.board);
             printf("Player 1's turn!\n");
-            play(player1, player2, ROWS, COLS);
-            turn = 2;
+            play(player1, player2, ROWS, COLS, &turn);
         }
         else if (turn == 2)
         {
@@ -125,8 +124,7 @@ int main(void)
             printBoard(ROWS, COLS, player2.auxboard);
             printBoard(ROWS, COLS, player2.board);
             printf("Player 2's turn!\n");
-            play(player2, player1, ROWS, COLS);
-            turn = 1;
+            play(player2, player1, ROWS, COLS, &turn);
         }
     }
 
