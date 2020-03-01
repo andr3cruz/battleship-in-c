@@ -1,17 +1,20 @@
+/* MAIN FUNCTION OF THE BATTLESHIP GAME */
+
 #include "battleship.h"
 
 int main(void)
 {
-    int input, ROWS, COLS, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS;
-    int turn = 1;
-    Cell **playerOneBoard;
-    Cell **playerTwoBoard;
-    Cell **playerOneBoardAux;
-    Cell **playerTwoBoardAux;
-    Ship *watership1;
-    Ship *watership2;
-    Player player1;
-    Player player2;
+    int input;                                                                     // navigation auxiliary variable
+    int ROWS, COLS, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS; // individual and total ship counts
+    int turn = 1;                                                                  // variable that determines whose turn it is, can take values 1 or 2
+    Cell **playerOneBoard;                                                         //board of player 1
+    Cell **playerTwoBoard;                                                         //board of player 2
+    Cell **playerOneBoardAux;                                                      // second board of player 1
+    Cell **playerTwoBoardAux;                                                      // second board of player 2
+    Ship *watership1;                                                              // array of ships of player 1
+    Ship *watership2;                                                              // array of ships of player 2
+    Player player1;                                                                // player 1 struct
+    Player player2;                                                                // player 2 struct
 
     // DISPLAYS THE FIRST TEXT SCREEN
     startScreen();
@@ -63,7 +66,7 @@ int main(void)
     initializeShips(watership1, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
     initializeShips(watership2, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
 
-    //ASSIGN EACH PLAYER HIS BOARD, SHIP AND HITPOINTS
+    //ASSIGN EACH PLAYER HIS BOARDS, SHIP AND HITPOINTS
     player1.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
     player2.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
     player1.board = playerOneBoard;
@@ -89,11 +92,11 @@ int main(void)
 
     switch (input)
     {
-    case 1:
+    case 1: //PLACES THE SHIPS MANUALLY
         manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
         manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player2);
         break;
-    case 2:
+    case 2: //PLACES THE SHIPS RANDOMLY
         randomlyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
         randomlyPlaceShips(ROWS, COLS, NUM_SHIPS, player2);
         break;
@@ -104,7 +107,7 @@ int main(void)
     //CHANGES TURNS BETWEEN PLAYERS
     while (player1.hitpoints >= 0 || player2.hitpoints >= 0)
     {
-        if (turn == 1)
+        if (turn == 1) //PLAYER 1 TURN
         {
             printf("WAITING FOR PLAYER 1\n");
             printf("Press <ENTER> to continue!");
@@ -115,7 +118,7 @@ int main(void)
             printf("Player 1's turn!\n");
             play(player1, player2, ROWS, COLS, &turn);
         }
-        else if (turn == 2)
+        else if (turn == 2) //PLAYER 2 TURN
         {
             printf("WAITING FOR PLAYER 2\n");
             printf("Press <ENTER> to continue!");
@@ -129,14 +132,14 @@ int main(void)
     }
 
     //ENDGAME CONDITIONS
-    if (player1.hitpoints <= 0)
+    if (player1.hitpoints <= 0) //PLAYER 2 WINS
     {
         system("clear");
         printf("CONGRATULATIONS, PLAYER 2 WINS!\n");
         printf("Press <ENTER> to end program!");
         getchar();
     }
-    else if (player2.hitpoints <= 0)
+    else if (player2.hitpoints <= 0) //PLAYER 1 WINS
     {
         system("clear");
         printf("CONGRATULATIONS, PLAYER 1 WINS!\n");

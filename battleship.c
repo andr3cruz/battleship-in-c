@@ -1,11 +1,16 @@
+/* FILE THAT CONTAINS THE FUNCTION CODE OF THE PROTOTYPES
+   LISTED IN BATTLESHIP.H*/
+
 #include "battleship.h"
 
+//PRINTS THE INITIAL SCREEN
 void startScreen(void)
 {
     system("clear");
     printf("Welcome to Battleship in C!\n\n");
 }
 
+//INITILIAZES THE BOARD GIVEN AS AN ARGUMENT WITH SIZE ROWS BY COLS IN A 2D ARRAY
 void initializeBoard(int ROWS, int COLS, Cell **board)
 {
     for (int i = 0; i < ROWS; i++)
@@ -17,6 +22,7 @@ void initializeBoard(int ROWS, int COLS, Cell **board)
         }
 }
 
+//PRINTS THE BOARD GIVEN AS AN ARGUMENT
 void printBoard(int ROWS, int COLS, Cell **board)
 {
     for (int i = 0; i < ROWS; i++)
@@ -31,6 +37,7 @@ void printBoard(int ROWS, int COLS, Cell **board)
     putchar('\n');
 }
 
+//INITILIAZES THE SHIPS GIVEN AS AN ARGUMENT PUTTING THEM IN AN ARRAY
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS)
 {
     for (int i = 0; i < NUM_SHIPS; i++) // PLAYER 1 SHIPS
@@ -68,6 +75,7 @@ void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, 
     }
 }
 
+//AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS ABOVE THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
 Boolean checkSpotsUp(Player player, int i, int x, int y)
 {
     for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
@@ -79,6 +87,7 @@ Boolean checkSpotsUp(Player player, int i, int x, int y)
     return TRUE;
 }
 
+//AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS BELOW THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
 Boolean checkSpotsDown(Player player, int i, int x, int y)
 {
     for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
@@ -90,6 +99,7 @@ Boolean checkSpotsDown(Player player, int i, int x, int y)
     return TRUE;
 }
 
+//AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS TO THE LEFT OF THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
 Boolean checkSpotsLeft(Player player, int i, int x, int y)
 {
     for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
@@ -101,6 +111,7 @@ Boolean checkSpotsLeft(Player player, int i, int x, int y)
     return TRUE;
 }
 
+//AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS TO THE RIGHT OF THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
 Boolean checkSpotsRight(Player player, int i, int x, int y)
 {
     for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
@@ -112,6 +123,7 @@ Boolean checkSpotsRight(Player player, int i, int x, int y)
     return TRUE;
 }
 
+//AUXILIARY FUNCTION THAT CHECKS IF IT IS POSSIBLE TO MAKE ANY PLAY GIVEN AN X AND Y COORDINATE, IF NOT RETURNS TRUE
 Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y)
 {
     if ((player.ship[i].hitpoints > y || (checkSpotsUp(player, i, x, y) == FALSE)) &&
@@ -122,6 +134,7 @@ Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y)
     return FALSE;
 }
 
+//PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT USING AN X AND Y VALUE
 void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 {
     int x, y, input;
@@ -145,7 +158,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
         else
         {
             system("clear");
-            player.board[y - 1][x - 1].symbol = 'O';
+            player.board[y - 1][x - 1].symbol = SHIP;
             printBoard(ROWS, COLS, player.board);
             printf("Place it:\n");
             if (player.ship[i].hitpoints <= y && (checkSpotsUp(player, i, x, y) == TRUE))
@@ -165,7 +178,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].symbol = SHIP;
                         player.board[y - 1][x - 1].ship = i;
                         y--;
                     }
@@ -186,7 +199,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].symbol = SHIP;
                         player.board[y - 1][x - 1].ship = i;
                         y++;
                     }
@@ -207,7 +220,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].symbol = SHIP;
                         player.board[y - 1][x - 1].ship = i;
                         x--;
                     }
@@ -227,7 +240,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].symbol = SHIP;
                         player.board[y - 1][x - 1].ship = i;
                         x++;
                     }
@@ -256,6 +269,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
     }
 }
 
+//RANDOMLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
 void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 {
     int x, y;
@@ -278,7 +292,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].symbol = SHIP;
                         player.board[y - 1][x - 1].ship = i;
                         y--;
                     }
@@ -294,7 +308,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].symbol = SHIP;
                         player.board[y - 1][x - 1].ship = i;
                         y++;
                     }
@@ -310,7 +324,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].symbol = SHIP;
                         player.board[y - 1][x - 1].ship = i;
                         x--;
                     }
@@ -325,7 +339,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
-                        player.board[y - 1][x - 1].symbol = 'O';
+                        player.board[y - 1][x - 1].symbol = SHIP;
                         player.board[y - 1][x - 1].ship = i;
                         x++;
                     }
@@ -343,6 +357,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
     }
 }
 
+//PLAY FUNCTION WHERE PLAYER1 IS THE ATTACKER AND PLAYER2 THE RECEIVER OF THE ATTACK
 void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
 {
     int x, y;
@@ -352,6 +367,8 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
     printf("Type the numerical coordinate Y of where you want to ATTACK\n");
     scanf("%d", &y);
     getchar();
+    int i = player2.board[y - 1][x - 1].ship;
+
     if (y > ROWS || x > COLS)
     {
         printf("Invalid operation\n");
@@ -361,8 +378,6 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
     }
     else
     {
-        int i = player2.board[y - 1][x - 1].ship;
-
         switch (player2.board[y - 1][x - 1].symbol)
         {
         case WATER:
@@ -381,7 +396,7 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
                 *turn = 1;
             break;
 
-        case 'O':
+        case SHIP:
             player2.board[y - 1][x - 1].symbol = HIT;
             player1.auxboard[y - 1][x - 1].symbol = HIT;
             player2.ship[i].hitpoints--;
@@ -401,7 +416,7 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
                 system("clear");
                 printBoard(ROWS, COLS, player1.auxboard);
                 printBoard(ROWS, COLS, player1.board);
-                printf("You HIT an enemy's ship!\n", player2.ship[i].hitpoints);
+                printf("You HIT an enemy's ship!\n");
                 printf("Press <ENTER> to continue!");
                 getchar();
                 system("clear");
