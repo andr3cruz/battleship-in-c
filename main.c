@@ -1,14 +1,20 @@
+/* MAIN FUNCTION OF THE BATTLESHIP GAME */
+
 #include "battleship.h"
 
 int main(void)
 {
-    int input, ROWS, COLS, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS;
-    Cell **playerOneBoard;
-    Cell **playerTwoBoard;
-    Ship *watership1;
-    Ship *watership2;
-    Player player1;
-    Player player2;
+    int input;                                                                     // navigation auxiliary variable
+    int ROWS, COLS, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS; // individual and total ship counts
+    int turn = 1;                                                                  // variable that determines whose turn it is, can take values 1 or 2
+    Cell **playerOneBoard;                                                         //board of player 1
+    Cell **playerTwoBoard;                                                         //board of player 2
+    Cell **playerOneBoardAux;                                                      // second board of player 1
+    Cell **playerTwoBoardAux;                                                      // second board of player 2
+    Ship *watership1;                                                              // array of ships of player 1
+    Ship *watership2;                                                              // array of ships of player 2
+    Player player1;                                                                // player 1 struct
+    Player player2;                                                                // player 2 struct
 
     // DISPLAYS THE FIRST TEXT SCREEN
     startScreen();
@@ -21,17 +27,23 @@ int main(void)
     // DINAMICALLY ALLOCATES MEMORY FOR EACH PLAYER BOARD
     playerOneBoard = malloc(ROWS * sizeof(Cell *));
     playerTwoBoard = malloc(ROWS * sizeof(Cell *));
+    playerOneBoardAux = malloc(ROWS * sizeof(Cell *));
+    playerTwoBoardAux = malloc(ROWS * sizeof(Cell *));
 
     for (int i = 0; i < ROWS; i++)
     {
         playerOneBoard[i] = malloc(COLS * sizeof(Cell));
         playerTwoBoard[i] = malloc(COLS * sizeof(Cell));
+        playerOneBoardAux[i] = malloc(COLS * sizeof(Cell));
+        playerTwoBoardAux[i] = malloc(COLS * sizeof(Cell));
     }
 
     // INITIALIZES THE BOARDS
 
     initializeBoard(ROWS, COLS, playerOneBoard);
     initializeBoard(ROWS, COLS, playerTwoBoard);
+    initializeBoard(ROWS, COLS, playerOneBoardAux);
+    initializeBoard(ROWS, COLS, playerTwoBoardAux);
 
     // GETS HOW MANY SHIPS OF EACH KIND TO CREATE
     printf("Choose number of Carriers\n");
@@ -54,11 +66,13 @@ int main(void)
     initializeShips(watership1, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
     initializeShips(watership2, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
 
-    //ASSIGN EACH PLAYER HIS BOARD, SHIP AND HITPOINTS
+    //ASSIGN EACH PLAYER HIS BOARDS, SHIP AND HITPOINTS
     player1.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
     player2.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
     player1.board = playerOneBoard;
     player2.board = playerTwoBoard;
+    player1.auxboard = playerOneBoardAux;
+    player2.auxboard = playerTwoBoardAux;
     player1.ship = watership1;
     player2.ship = watership2;
 
@@ -73,15 +87,16 @@ int main(void)
     printf("1) Place ships MANUALLY\n");
     printf("2) Place ships RANDOMLY\n");
     scanf("%d", &input);
+    getchar();
     system("clear");
 
     switch (input)
     {
-    case 1:
+    case 1: //PLACES THE SHIPS MANUALLY
         manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
         manuallyPlaceShips(ROWS, COLS, NUM_SHIPS, player2);
         break;
-    case 2:
+    case 2: //PLACES THE SHIPS RANDOMLY
         randomlyPlaceShips(ROWS, COLS, NUM_SHIPS, player1);
         randomlyPlaceShips(ROWS, COLS, NUM_SHIPS, player2);
         break;
@@ -89,12 +104,48 @@ int main(void)
         break;
     }
 
-    printBoard(ROWS, COLS, player1);
-    printBoard(ROWS, COLS, player2);
+    //CHANGES TURNS BETWEEN PLAYERS
+    while (player1.hitpoints >= 0 || player2.hitpoints >= 0)
+    {
+        if (turn == 1) //PLAYER 1 TURN
+        {
+            printf("WAITING FOR PLAYER 1\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+            printBoard(ROWS, COLS, player1.auxboard);
+            printBoard(ROWS, COLS, player1.board);
+            printf("Player 1's turn!\n");
+            play(player1, player2, ROWS, COLS, &turn);
+        }
+        else if (turn == 2) //PLAYER 2 TURN
+        {
+            printf("WAITING FOR PLAYER 2\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+            printBoard(ROWS, COLS, player2.auxboard);
+            printBoard(ROWS, COLS, player2.board);
+            printf("Player 2's turn!\n");
+            play(player2, player1, ROWS, COLS, &turn);
+        }
+    }
 
-    // RESETS SYMBOLS TO WATER
-    initializeBoard(ROWS, COLS, player1.board);
-    initializeBoard(ROWS, COLS, player2.board);
+    //ENDGAME CONDITIONS
+    if (player1.hitpoints <= 0) //PLAYER 2 WINS
+    {
+        system("clear");
+        printf("CONGRATULATIONS, PLAYER 2 WINS!\n");
+        printf("Press <ENTER> to end program!");
+        getchar();
+    }
+    else if (player2.hitpoints <= 0) //PLAYER 1 WINS
+    {
+        system("clear");
+        printf("CONGRATULATIONS, PLAYER 1 WINS!\n");
+        printf("Press <ENTER> to end program!");
+        getchar();
+    }
 
     return 0;
 }

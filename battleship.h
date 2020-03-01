@@ -1,3 +1,6 @@
+/* FILE THAT CONTAINS THE INCLUDES,MACROS,STRUCTS AND FUNCTION
+   PROTOTYPES TO THE BATTLESHIP GAME */
+
 #ifndef BATTLESHIP_H
 #define BATTLESHIP_H
 
@@ -11,7 +14,8 @@
 
 #define WATER '~'
 #define HIT 'X'
-#define MISS '*'
+#define MISS 'M'
+#define SHIP 'O'
 
 // STRUCTS
 
@@ -32,13 +36,14 @@ typedef struct cell
     char symbol;
     int row;
     int column;
-    Ship ship;
+    int ship;
 } Cell;
 
 typedef struct player
 {
     int hitpoints;
     Cell **board;
+    Cell **auxboard;
     Ship *ship;
 } Player;
 
@@ -46,7 +51,7 @@ typedef struct player
 
 void startScreen(void);
 void initializeBoard(int ROWS, int COLS, Cell **board);
-void printBoard(int ROWS, int COLS, Player player);
+void printBoard(int ROWS, int COLS, Cell **board);
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS);
 Boolean checkSpotsUp(Player player, int i, int x, int y);
 Boolean checkSpotsDown(Player player, int i, int x, int y);
@@ -55,5 +60,6 @@ Boolean checkSpotsRight(Player player, int i, int x, int y);
 Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y);
 void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
 void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
+void play(Player player1, Player player2, int ROWS, int COLS, int *turn);
 
 #endif
