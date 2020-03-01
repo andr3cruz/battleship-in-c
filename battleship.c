@@ -272,7 +272,6 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 //RANDOMLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
 void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 {
-    int x, y;
     for (int i = 0; i < NUM_SHIPS; i++)
     {
         srandom(clock());
