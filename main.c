@@ -105,10 +105,11 @@ int main(void)
     }
 
     //CHANGES TURNS BETWEEN PLAYERS
-    while (player1.hitpoints >= 0 || player2.hitpoints >= 0)
+    while (player1.hitpoints > 0 && player2.hitpoints > 0)
     {
         if (turn == 1) //PLAYER 1 TURN
         {
+            printf("%d\n", player1.hitpoints);
             printf("WAITING FOR PLAYER 1\n");
             printf("Press <ENTER> to continue!");
             getchar();

@@ -34,9 +34,7 @@ typedef struct ship
 typedef struct cell
 {
     char symbol;
-    int row;
-    int column;
-    int ship;
+    Ship *ship;
 } Cell;
 
 typedef struct player
@@ -50,8 +48,8 @@ typedef struct player
 // PROTOTYPES
 
 void startScreen(void);
-void initializeBoard(int ROWS, int COLS, Cell **board);
 void printBoard(int ROWS, int COLS, Cell **board);
+void initializeBoard(int ROWS, int COLS, Cell **board);
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS);
 Boolean checkSpotsUp(Player player, int i, int x, int y);
 Boolean checkSpotsDown(Player player, int i, int x, int y);

@@ -10,18 +10,6 @@ void startScreen(void)
     printf("Welcome to Battleship in C!\n\n");
 }
 
-//INITILIAZES THE BOARD GIVEN AS AN ARGUMENT WITH SIZE ROWS BY COLS IN A 2D ARRAY
-void initializeBoard(int ROWS, int COLS, Cell **board)
-{
-    for (int i = 0; i < ROWS; i++)
-        for (int j = 0; j < COLS; j++)
-        {
-            board[i][j].symbol = WATER;
-            board[i][j].row = i;
-            board[i][j].column = j;
-        }
-}
-
 //PRINTS THE BOARD GIVEN AS AN ARGUMENT
 void printBoard(int ROWS, int COLS, Cell **board)
 {
@@ -35,6 +23,16 @@ void printBoard(int ROWS, int COLS, Cell **board)
         putchar('\n');
     }
     putchar('\n');
+}
+
+//INITILIAZES THE BOARD GIVEN AS AN ARGUMENT WITH SIZE ROWS BY COLS IN A 2D ARRAY
+void initializeBoard(int ROWS, int COLS, Cell **board)
+{
+    for (int i = 0; i < ROWS; i++)
+        for (int j = 0; j < COLS; j++)
+        {
+            board[i][j].symbol = WATER;
+        }
 }
 
 //INITILIAZES THE SHIPS GIVEN AS AN ARGUMENT PUTTING THEM IN AN ARRAY
@@ -179,7 +177,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
                         player.board[y - 1][x - 1].symbol = SHIP;
-                        player.board[y - 1][x - 1].ship = i;
+                        player.board[y - 1][x - 1].ship = &player.ship[i];
                         y--;
                     }
                 }
@@ -200,7 +198,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
                         player.board[y - 1][x - 1].symbol = SHIP;
-                        player.board[y - 1][x - 1].ship = i;
+                        player.board[y - 1][x - 1].ship = &player.ship[i];
                         y++;
                     }
                 }
@@ -221,7 +219,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
                         player.board[y - 1][x - 1].symbol = SHIP;
-                        player.board[y - 1][x - 1].ship = i;
+                        player.board[y - 1][x - 1].ship = &player.ship[i];
                         x--;
                     }
                 }
@@ -241,7 +239,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
                         player.board[y - 1][x - 1].symbol = SHIP;
-                        player.board[y - 1][x - 1].ship = i;
+                        player.board[y - 1][x - 1].ship = &player.ship[i];
                         x++;
                     }
                 }
@@ -292,7 +290,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
                         player.board[y - 1][x - 1].symbol = SHIP;
-                        player.board[y - 1][x - 1].ship = i;
+                        player.board[y - 1][x - 1].ship = &player.ship[i];
                         y--;
                     }
                 }
@@ -308,7 +306,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
                         player.board[y - 1][x - 1].symbol = SHIP;
-                        player.board[y - 1][x - 1].ship = i;
+                        player.board[y - 1][x - 1].ship = &player.ship[i];
                         y++;
                     }
                 }
@@ -324,7 +322,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
                         player.board[y - 1][x - 1].symbol = SHIP;
-                        player.board[y - 1][x - 1].ship = i;
+                        player.board[y - 1][x - 1].ship = &player.ship[i];
                         x--;
                     }
                 }
@@ -339,7 +337,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
                         player.board[y - 1][x - 1].symbol = SHIP;
-                        player.board[y - 1][x - 1].ship = i;
+                        player.board[y - 1][x - 1].ship = &player.ship[i];
                         x++;
                     }
                 }
@@ -366,7 +364,6 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
     printf("Type the numerical coordinate Y of where you want to ATTACK\n");
     scanf("%d", &y);
     getchar();
-    int i = player2.board[y - 1][x - 1].ship;
 
     if (y > ROWS || x > COLS)
     {
@@ -398,14 +395,14 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
         case SHIP:
             player2.board[y - 1][x - 1].symbol = HIT;
             player1.auxboard[y - 1][x - 1].symbol = HIT;
-            player2.ship[i].hitpoints--;
+            player2.board[y - 1][x - 1].ship->hitpoints--;
             player2.hitpoints--;
-            if (player2.ship[i].hitpoints <= 0)
+            if (player2.board[y - 1][x - 1].ship->hitpoints <= 0)
             {
                 system("clear");
                 printBoard(ROWS, COLS, player1.auxboard);
                 printBoard(ROWS, COLS, player1.board);
-                printf("You destroyed the enemy's %s!\n", player2.ship[i].name);
+                printf("You destroyed the enemy's %s!\n", player2.board[y - 1][x - 1].ship->name);
                 printf("Press <ENTER> to continue!");
                 getchar();
                 system("clear");
