@@ -11,12 +11,12 @@ void startScreen(void)
 }
 
 //PRINTS THE BOARD GIVEN AS AN ARGUMENT
-void printBoard(int ROWS, int COLS, Cell **board)
+void printBoard(int DIM, Cell **board)
 {
-    for (int i = 0; i < ROWS; i++)
+    for (int i = 0; i < DIM; i++)
     {
 
-        for (int j = 0; j < COLS; j++)
+        for (int j = 0; j < DIM; j++)
         {
             printf("%c ", board[i][j].symbol);
         }
@@ -26,12 +26,12 @@ void printBoard(int ROWS, int COLS, Cell **board)
 }
 
 //PRINTS THE BOARD GIVEN AS AN ARGUMENT AND HIDES THE SHIPS
-void printEnemyBoard(int ROWS, int COLS, Cell **board)
+void printEnemyBoard(int DIM, Cell **board)
 {
-    for (int i = 0; i < ROWS; i++)
+    for (int i = 0; i < DIM; i++)
     {
 
-        for (int j = 0; j < COLS; j++)
+        for (int j = 0; j < DIM; j++)
         {
             if (board[i][j].symbol == SHIP)
                 printf("%c ", WATER);
@@ -43,11 +43,11 @@ void printEnemyBoard(int ROWS, int COLS, Cell **board)
     putchar('\n');
 }
 
-//INITILIAZES THE BOARD GIVEN AS AN ARGUMENT WITH SIZE ROWS BY COLS IN A 2D ARRAY
-void initializeBoard(int ROWS, int COLS, Cell **board)
+//INITILIAZES THE BOARD GIVEN AS AN ARGUMENT WITH SIZE DIM BY DIM IN A 2D ARRAY
+void initializeBoard(int DIM, Cell **board)
 {
-    for (int i = 0; i < ROWS; i++)
-        for (int j = 0; j < COLS; j++)
+    for (int i = 0; i < DIM; i++)
+        for (int j = 0; j < DIM; j++)
         {
             board[i][j].symbol = WATER;
         }
@@ -140,30 +140,30 @@ Boolean checkSpotsRight(Player player, int i, int x, int y)
 }
 
 //AUXILIARY FUNCTION THAT CHECKS IF IT IS POSSIBLE TO MAKE ANY PLAY GIVEN AN X AND Y COORDINATE, IF NOT RETURNS TRUE
-Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y)
+Boolean impossiblePlay(Player player, int DIM, int i, int x, int y)
 {
     if ((player.ship[i].hitpoints > y || (checkSpotsUp(player, i, x, y) == FALSE)) &&
-        ((player.ship[i].hitpoints > ROWS - y + 1) || (checkSpotsDown(player, i, x, y) == FALSE)) &&
+        ((player.ship[i].hitpoints > DIM - y + 1) || (checkSpotsDown(player, i, x, y) == FALSE)) &&
         (player.ship[i].hitpoints > x || (checkSpotsLeft(player, i, x, y) == FALSE)) &&
-        ((player.ship[i].hitpoints > COLS - x + 1) || (checkSpotsRight(player, i, x, y) == FALSE)))
+        ((player.ship[i].hitpoints > DIM - x + 1) || (checkSpotsRight(player, i, x, y) == FALSE)))
         return TRUE;
     return FALSE;
 }
 
 //PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT USING AN X AND Y VALUE
-void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
+void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
 {
     int x, y, input;
     for (int i = 0; i < NUM_SHIPS; i++)
     {
-        printBoard(ROWS, COLS, player.board);
+        printBoard(DIM, player.board);
         printf("Type the numerical coordinate X of where you want to place your ship\n");
         scanf("%d", &x);
         getchar();
         printf("Type the numerical coordinate Y of where you want to place your ship\n");
         scanf("%d", &y);
         getchar();
-        if ((y > ROWS) || (x > COLS) || (x <= 0) || (y <= 0) || (player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, ROWS, COLS, i, x, y) == TRUE))
+        if ((y > DIM) || (x > DIM) || (x <= 0) || (y <= 0) || (player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, DIM, i, x, y) == TRUE))
         {
             i--;
             printf("Invalid operation\n");
@@ -175,15 +175,15 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
         {
             system("clear");
             player.board[y - 1][x - 1].symbol = SHIP;
-            printBoard(ROWS, COLS, player.board);
+            printBoard(DIM, player.board);
             printf("Place it:\n");
             if (player.ship[i].hitpoints <= y && (checkSpotsUp(player, i, x, y) == TRUE))
                 printf("1) UP\n");
-            if ((player.ship[i].hitpoints <= ROWS - y + 1) && (checkSpotsDown(player, i, x, y) == TRUE))
+            if ((player.ship[i].hitpoints <= DIM - y + 1) && (checkSpotsDown(player, i, x, y) == TRUE))
                 printf("2) DOWN\n");
             if (player.ship[i].hitpoints <= x && (checkSpotsLeft(player, i, x, y) == TRUE))
                 printf("3) LEFT\n");
-            if ((player.ship[i].hitpoints <= COLS - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
+            if ((player.ship[i].hitpoints <= DIM - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
                 printf("4) RIGHT\n");
             scanf("%d", &input);
             getchar();
@@ -210,7 +210,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 }
                 break;
             case 2:
-                if ((player.ship[i].hitpoints <= ROWS - y + 1) && (checkSpotsDown(player, i, x, y) == TRUE))
+                if ((player.ship[i].hitpoints <= DIM - y + 1) && (checkSpotsDown(player, i, x, y) == TRUE))
                 {
 
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
@@ -252,7 +252,7 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 }
                 break;
             case 4:
-                if ((player.ship[i].hitpoints <= COLS - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
+                if ((player.ship[i].hitpoints <= DIM - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
@@ -286,15 +286,15 @@ void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 }
 
 //RANDOMLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
-void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
+void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player player)
 {
     for (int i = 0; i < NUM_SHIPS; i++)
     {
         srandom(clock());
-        int x = random() % COLS + 1;
-        int y = random() % ROWS + 1;
+        int x = random() % DIM + 1;
+        int y = random() % DIM + 1;
         int option = random() % 4 + 1;
-        if ((player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, ROWS, COLS, i, x, y) == TRUE))
+        if ((player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, DIM, i, x, y) == TRUE))
         {
             i--;
         }
@@ -318,7 +318,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 }
                 break;
             case 2:
-                if ((player.ship[i].hitpoints <= ROWS - y + 1) && (checkSpotsDown(player, i, x, y) == TRUE))
+                if ((player.ship[i].hitpoints <= DIM - y + 1) && (checkSpotsDown(player, i, x, y) == TRUE))
                 {
 
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
@@ -350,7 +350,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
                 }
                 break;
             case 4:
-                if ((player.ship[i].hitpoints <= COLS - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
+                if ((player.ship[i].hitpoints <= DIM - x + 1) && (checkSpotsRight(player, i, x, y) == TRUE))
                 {
                     for (int j = 0; j < player.ship[i].hitpoints; j++)
                     {
@@ -373,7 +373,7 @@ void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player)
 }
 
 //PLAY FUNCTION WHERE PLAYER1 IS THE ATTACKER AND PLAYER2 THE RECEIVER OF THE ATTACK
-void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
+void play(Player player1, Player player2, int DIM, int *turn)
 {
     int x, y;
     printf("Type the numerical coordinate X of where you want to ATTACK\n");
@@ -383,7 +383,7 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
     scanf("%d", &y);
     getchar();
 
-    if (y > ROWS || x > COLS)
+    if (y > DIM || x > DIM)
     {
         printf("Invalid operation, play again\n");
         printf("Press <ENTER> to continue!");
@@ -397,8 +397,8 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
         case WATER:
             player2.board[y - 1][x - 1].symbol = MISS;
             system("clear");
-            printEnemyBoard(ROWS, COLS, player2.board);
-            printBoard(ROWS, COLS, player1.board);
+            printEnemyBoard(DIM, player2.board);
+            printBoard(DIM, player1.board);
             printf("You MISSED!\n");
             printf("Press <ENTER> to continue!");
             getchar();
@@ -416,8 +416,8 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
             if (player2.board[y - 1][x - 1].ship->hitpoints <= 0)
             {
                 system("clear");
-                printEnemyBoard(ROWS, COLS, player2.board);
-                printBoard(ROWS, COLS, player1.board);
+                printEnemyBoard(DIM, player2.board);
+                printBoard(DIM, player1.board);
                 printf("You destroyed the enemy's %s!\n", player2.board[y - 1][x - 1].ship->name);
                 printf("Press <ENTER> to continue!");
                 getchar();
@@ -426,8 +426,8 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
             else
             {
                 system("clear");
-                printEnemyBoard(ROWS, COLS, player2.board);
-                printBoard(ROWS, COLS, player1.board);
+                printEnemyBoard(DIM, player2.board);
+                printBoard(DIM, player1.board);
                 printf("You HIT an enemy's ship!\n");
                 printf("Press <ENTER> to continue!");
                 getchar();
@@ -441,8 +441,8 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
 
         default:
             system("clear");
-            printEnemyBoard(ROWS, COLS, player2.board);
-            printBoard(ROWS, COLS, player1.board);
+            printEnemyBoard(DIM, player2.board);
+            printBoard(DIM, player1.board);
             printf("INVALID PLAY!\n");
             printf("Press <ENTER> to continue!");
             getchar();

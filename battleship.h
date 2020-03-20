@@ -47,17 +47,17 @@ typedef struct player
 // PROTOTYPES
 
 void startScreen(void);
-void printBoard(int ROWS, int COLS, Cell **board);
-void printEnemyBoard(int ROWS, int COLS, Cell **board);
-void initializeBoard(int ROWS, int COLS, Cell **board);
+void printBoard(int DIM, Cell **board);
+void printEnemyBoard(int DIM, Cell **board);
+void initializeBoard(int DIM, Cell **board);
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS);
 Boolean checkSpotsUp(Player player, int i, int x, int y);
 Boolean checkSpotsDown(Player player, int i, int x, int y);
 Boolean checkSpotsLeft(Player player, int i, int x, int y);
 Boolean checkSpotsRight(Player player, int i, int x, int y);
-Boolean impossiblePlay(Player player, int ROWS, int COLS, int i, int x, int y);
-void manuallyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
-void randomlyPlaceShips(int ROWS, int COLS, int NUM_SHIPS, Player player);
-void play(Player player1, Player player2, int ROWS, int COLS, int *turn);
+Boolean impossiblePlay(Player player, int DIM, int i, int x, int y);
+void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player);
+void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player player);
+void play(Player player1, Player player2, int DIM, int *turn);
 
 #endif
