@@ -41,7 +41,6 @@ typedef struct player
 {
     int hitpoints;
     Cell **board;
-    Cell **auxboard;
     Ship *ship;
 } Player;
 
@@ -49,6 +48,7 @@ typedef struct player
 
 void startScreen(void);
 void printBoard(int ROWS, int COLS, Cell **board);
+void printEnemyBoard(int ROWS, int COLS, Cell **board);
 void initializeBoard(int ROWS, int COLS, Cell **board);
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS);
 Boolean checkSpotsUp(Player player, int i, int x, int y);

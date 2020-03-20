@@ -9,8 +9,6 @@ int main(void)
     int turn = 1;                                                                  // variable that determines whose turn it is, can take values 1 or 2
     Cell **playerOneBoard;                                                         //board of player 1
     Cell **playerTwoBoard;                                                         //board of player 2
-    Cell **playerOneBoardAux;                                                      // second board of player 1
-    Cell **playerTwoBoardAux;                                                      // second board of player 2
     Ship *watership1;                                                              // array of ships of player 1
     Ship *watership2;                                                              // array of ships of player 2
     Player player1;                                                                // player 1 struct
@@ -27,23 +25,17 @@ int main(void)
     // DINAMICALLY ALLOCATES MEMORY FOR EACH PLAYER BOARD
     playerOneBoard = malloc(ROWS * sizeof(Cell *));
     playerTwoBoard = malloc(ROWS * sizeof(Cell *));
-    playerOneBoardAux = malloc(ROWS * sizeof(Cell *));
-    playerTwoBoardAux = malloc(ROWS * sizeof(Cell *));
 
     for (int i = 0; i < ROWS; i++)
     {
         playerOneBoard[i] = malloc(COLS * sizeof(Cell));
         playerTwoBoard[i] = malloc(COLS * sizeof(Cell));
-        playerOneBoardAux[i] = malloc(COLS * sizeof(Cell));
-        playerTwoBoardAux[i] = malloc(COLS * sizeof(Cell));
     }
 
     // INITIALIZES THE BOARDS
 
     initializeBoard(ROWS, COLS, playerOneBoard);
     initializeBoard(ROWS, COLS, playerTwoBoard);
-    initializeBoard(ROWS, COLS, playerOneBoardAux);
-    initializeBoard(ROWS, COLS, playerTwoBoardAux);
 
     // GETS HOW MANY SHIPS OF EACH KIND TO CREATE
     printf("Choose number of Carriers\n");
@@ -71,8 +63,6 @@ int main(void)
     player2.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
     player1.board = playerOneBoard;
     player2.board = playerTwoBoard;
-    player1.auxboard = playerOneBoardAux;
-    player2.auxboard = playerTwoBoardAux;
     player1.ship = watership1;
     player2.ship = watership2;
 
@@ -114,7 +104,7 @@ int main(void)
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
-            printBoard(ROWS, COLS, player1.auxboard);
+            printEnemyBoard(ROWS, COLS, player2.board);
             printBoard(ROWS, COLS, player1.board);
             printf("Player 1's turn!\n");
             play(player1, player2, ROWS, COLS, &turn);
@@ -125,7 +115,7 @@ int main(void)
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
-            printBoard(ROWS, COLS, player2.auxboard);
+            printEnemyBoard(ROWS, COLS, player1.board);
             printBoard(ROWS, COLS, player2.board);
             printf("Player 2's turn!\n");
             play(player2, player1, ROWS, COLS, &turn);

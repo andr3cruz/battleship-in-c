@@ -25,6 +25,24 @@ void printBoard(int ROWS, int COLS, Cell **board)
     putchar('\n');
 }
 
+//PRINTS THE BOARD GIVEN AS AN ARGUMENT AND HIDES THE SHIPS
+void printEnemyBoard(int ROWS, int COLS, Cell **board)
+{
+    for (int i = 0; i < ROWS; i++)
+    {
+
+        for (int j = 0; j < COLS; j++)
+        {
+            if (board[i][j].symbol == SHIP)
+                printf("%c ", WATER);
+            else
+                printf("%c ", board[i][j].symbol);
+        }
+        putchar('\n');
+    }
+    putchar('\n');
+}
+
 //INITILIAZES THE BOARD GIVEN AS AN ARGUMENT WITH SIZE ROWS BY COLS IN A 2D ARRAY
 void initializeBoard(int ROWS, int COLS, Cell **board)
 {
@@ -367,7 +385,7 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
 
     if (y > ROWS || x > COLS)
     {
-        printf("Invalid operation\n");
+        printf("Invalid operation, play again\n");
         printf("Press <ENTER> to continue!");
         getchar();
         system("clear");
@@ -378,9 +396,8 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
         {
         case WATER:
             player2.board[y - 1][x - 1].symbol = MISS;
-            player1.auxboard[y - 1][x - 1].symbol = MISS;
             system("clear");
-            printBoard(ROWS, COLS, player1.auxboard);
+            printEnemyBoard(ROWS, COLS, player2.board);
             printBoard(ROWS, COLS, player1.board);
             printf("You MISSED!\n");
             printf("Press <ENTER> to continue!");
@@ -394,13 +411,12 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
 
         case SHIP:
             player2.board[y - 1][x - 1].symbol = HIT;
-            player1.auxboard[y - 1][x - 1].symbol = HIT;
             player2.board[y - 1][x - 1].ship->hitpoints--;
             player2.hitpoints--;
             if (player2.board[y - 1][x - 1].ship->hitpoints <= 0)
             {
                 system("clear");
-                printBoard(ROWS, COLS, player1.auxboard);
+                printEnemyBoard(ROWS, COLS, player2.board);
                 printBoard(ROWS, COLS, player1.board);
                 printf("You destroyed the enemy's %s!\n", player2.board[y - 1][x - 1].ship->name);
                 printf("Press <ENTER> to continue!");
@@ -410,7 +426,7 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
             else
             {
                 system("clear");
-                printBoard(ROWS, COLS, player1.auxboard);
+                printEnemyBoard(ROWS, COLS, player2.board);
                 printBoard(ROWS, COLS, player1.board);
                 printf("You HIT an enemy's ship!\n");
                 printf("Press <ENTER> to continue!");
@@ -425,7 +441,7 @@ void play(Player player1, Player player2, int ROWS, int COLS, int *turn)
 
         default:
             system("clear");
-            printBoard(ROWS, COLS, player1.auxboard);
+            printEnemyBoard(ROWS, COLS, player2.board);
             printBoard(ROWS, COLS, player1.board);
             printf("INVALID PLAY!\n");
             printf("Press <ENTER> to continue!");
