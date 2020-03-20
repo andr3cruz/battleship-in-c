@@ -37,17 +37,42 @@ int main(void)
     initializeBoard(DIM, playerOneBoard);
     initializeBoard(DIM, playerTwoBoard);
 
-    // GETS HOW MANY SHIPS OF EACH KIND TO CREATE
-    printf("Choose number of Carriers\n");
+    // GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
+    printf("Choose number of Carriers: (minimum 1)\n");
     scanf("%d", &CARRIER);
-    printf("Choose number of Battleships\n");
+    if (CARRIER < 1)
+    {
+        printf("ERROR: Invalid number of ships\n");
+        return 0;
+    }
+    printf("Choose number of Battleships: (minimum 1)\n");
     scanf("%d", &BATTLESHIP);
-    printf("Choose number of Cruisers\n");
+    if (BATTLESHIP < 1)
+    {
+        printf("ERROR: Invalid number of ships\n");
+        return 0;
+    }
+    printf("Choose number of Cruisers: (minimum 1)\n");
     scanf("%d", &CRUISER);
-    printf("Choose number of Submarines\n");
+    if (CRUISER < 1)
+    {
+        printf("ERROR: Invalid number of ships\n");
+        return 0;
+    }
+    printf("Choose number of Submarines: (minimum 1)\n");
     scanf("%d", &SUBMARINE);
-    printf("Choose number of Destroyers\n");
+    if (SUBMARINE < 1)
+    {
+        printf("ERROR: Invalid number of ships\n");
+        return 0;
+    }
+    printf("Choose number of Destroyers: (minimum 1)\n");
     scanf("%d", &DESTROYER);
+    if (DESTROYER < 1)
+    {
+        printf("ERROR: Invalid number of ships\n");
+        return 0;
+    }
     system("clear");
     NUM_SHIPS = CARRIER + BATTLESHIP + CRUISER + SUBMARINE + DESTROYER;
 
@@ -68,10 +93,10 @@ int main(void)
     player2.ship = watership2;
 
     //CHECKS IF SHIPS CAN FIT ON THE BOARD
-    if (player1.hitpoints >= DIM * DIM)
+    if (NUM_SHIPS > (DIM * DIM) / (5 * 5))
     {
-        printf("ERROR: Ships don't fit on board size given\n");
-        return 1;
+        printf("ERROR: Max number of ships is %d for the board size given and you selected %d\n", ((DIM * DIM) / (5 * 5)), NUM_SHIPS);
+        return 0;
     }
 
     //CHOOSE SHIP PLACEMENT MODE
