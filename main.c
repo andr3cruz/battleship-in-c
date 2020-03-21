@@ -8,6 +8,7 @@ int main(void)
     int DIM;                                                           // dimension of board
     int CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS; // individual and total ship counts
     int turn;                                                          // variable that determines whose turn it is, can take values 1 or 2
+    Player player1;                                                    // player 1 struct
     Player player2;                                                    // player 2 struct
 
     // DISPLAYS THE FIRST TEXT SCREEN
