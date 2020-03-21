@@ -91,6 +91,22 @@ void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, 
     }
 }
 
+void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS)
+{
+    player->hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
+
+    player->board = malloc(DIM * sizeof(Cell *));
+    for (int i = 0; i < DIM; i++)
+    {
+        player->board[i] = malloc(DIM * sizeof(Cell));
+    }
+
+    player->ship = (Ship *)malloc(NUM_SHIPS * sizeof(Ship));
+
+    initializeBoard(DIM, player->board);
+    initializeShips(player->ship, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
+}
+
 //AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS ABOVE THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
 Boolean checkSpotsUp(Player player, int i, int x, int y)
 {
@@ -288,9 +304,9 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
 //RANDOMLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
 void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player player)
 {
+    srandom(time(NULL));
     for (int i = 0; i < NUM_SHIPS; i++)
     {
-        srandom(clock());
         int x = random() % DIM + 1;
         int y = random() % DIM + 1;
         int option = random() % 4 + 1;
@@ -373,7 +389,7 @@ void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player player)
 }
 
 //PLAY FUNCTION WHERE PLAYER1 IS THE ATTACKER AND PLAYER2 THE RECEIVER OF THE ATTACK
-void play(Player player1, Player player2, int DIM, int *turn)
+void play(Player *player1, Player *player2, int DIM, int *turn)
 {
     int x, y;
     printf("Type the numerical coordinate X of where you want to ATTACK\n");
@@ -392,13 +408,13 @@ void play(Player player1, Player player2, int DIM, int *turn)
     }
     else
     {
-        switch (player2.board[y - 1][x - 1].symbol)
+        switch (player2->board[y - 1][x - 1].symbol)
         {
         case WATER:
-            player2.board[y - 1][x - 1].symbol = MISS;
+            player2->board[y - 1][x - 1].symbol = MISS;
             system("clear");
-            printEnemyBoard(DIM, player2.board);
-            printBoard(DIM, player1.board);
+            printEnemyBoard(DIM, player2->board);
+            printBoard(DIM, player1->board);
             printf("You MISSED!\n");
             printf("Press <ENTER> to continue!");
             getchar();
@@ -410,15 +426,15 @@ void play(Player player1, Player player2, int DIM, int *turn)
             break;
 
         case SHIP:
-            player2.board[y - 1][x - 1].symbol = HIT;
-            player2.board[y - 1][x - 1].ship->hitpoints--;
-            player2.hitpoints--;
-            if (player2.board[y - 1][x - 1].ship->hitpoints <= 0)
+            player2->board[y - 1][x - 1].symbol = HIT;
+            player2->board[y - 1][x - 1].ship->hitpoints--;
+            player2->hitpoints--;
+            if (player2->board[y - 1][x - 1].ship->hitpoints <= 0)
             {
                 system("clear");
-                printEnemyBoard(DIM, player2.board);
-                printBoard(DIM, player1.board);
-                printf("You destroyed the enemy's %s!\n", player2.board[y - 1][x - 1].ship->name);
+                printEnemyBoard(DIM, player2->board);
+                printBoard(DIM, player1->board);
+                printf("You destroyed the enemy's %s!\n", player2->board[y - 1][x - 1].ship->name);
                 printf("Press <ENTER> to continue!");
                 getchar();
                 system("clear");
@@ -426,8 +442,8 @@ void play(Player player1, Player player2, int DIM, int *turn)
             else
             {
                 system("clear");
-                printEnemyBoard(DIM, player2.board);
-                printBoard(DIM, player1.board);
+                printEnemyBoard(DIM, player2->board);
+                printBoard(DIM, player1->board);
                 printf("You HIT an enemy's ship!\n");
                 printf("Press <ENTER> to continue!");
                 getchar();
@@ -441,8 +457,8 @@ void play(Player player1, Player player2, int DIM, int *turn)
 
         default:
             system("clear");
-            printEnemyBoard(DIM, player2.board);
-            printBoard(DIM, player1.board);
+            printEnemyBoard(DIM, player2->board);
+            printBoard(DIM, player1->board);
             printf("INVALID PLAY!\n");
             printf("Press <ENTER> to continue!");
             getchar();

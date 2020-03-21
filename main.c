@@ -7,11 +7,7 @@ int main(void)
     int input;                                                         // navigation auxiliary variable
     int DIM;                                                           // dimension of board
     int CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS; // individual and total ship counts
-    int turn = 1;                                                      // variable that determines whose turn it is, can take values 1 or 2
-    Cell **playerOneBoard;                                             //board of player 1
-    Cell **playerTwoBoard;                                             //board of player 2
-    Ship *watership1;                                                  // array of ships of player 1
-    Ship *watership2;                                                  // array of ships of player 2
+    int turn;                                                          // variable that determines whose turn it is, can take values 1 or 2                                                  // array of ships of player 2
     Player player1;                                                    // player 1 struct
     Player player2;                                                    // player 2 struct
 
@@ -21,21 +17,6 @@ int main(void)
     //GETS THE DIMENSION OF THE BOARD
     printf("Choose dimension of board\n");
     scanf("%d", &DIM);
-
-    // DINAMICALLY ALLOCATES MEMORY FOR EACH PLAYER BOARD
-    playerOneBoard = malloc(DIM * sizeof(Cell *));
-    playerTwoBoard = malloc(DIM * sizeof(Cell *));
-
-    for (int i = 0; i < DIM; i++)
-    {
-        playerOneBoard[i] = malloc(DIM * sizeof(Cell));
-        playerTwoBoard[i] = malloc(DIM * sizeof(Cell));
-    }
-
-    // INITIALIZES THE BOARDS
-
-    initializeBoard(DIM, playerOneBoard);
-    initializeBoard(DIM, playerTwoBoard);
 
     // GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
     printf("Choose number of Carriers: (minimum 1)\n");
@@ -74,23 +55,13 @@ int main(void)
         return 0;
     }
     system("clear");
+
+    //SAVES TOTAL NUMBER OF SHIPS
     NUM_SHIPS = CARRIER + BATTLESHIP + CRUISER + SUBMARINE + DESTROYER;
 
-    // DINAMICALLY ALLOCATES MEMORY FOR EACH SHIP
-    watership1 = (Ship *)malloc(NUM_SHIPS * sizeof(Ship));
-    watership2 = (Ship *)malloc(NUM_SHIPS * sizeof(Ship));
-
-    // INITIALIZES THE SHIPS
-    initializeShips(watership1, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
-    initializeShips(watership2, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
-
-    //ASSIGN EACH PLAYER HIS BOARDS, SHIP AND HITPOINTS
-    player1.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
-    player2.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
-    player1.board = playerOneBoard;
-    player2.board = playerTwoBoard;
-    player1.ship = watership1;
-    player2.ship = watership2;
+    //INITIALIZES EACH PLAYER
+    initializePlayers(&player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
+    initializePlayers(&player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
 
     //CHECKS IF SHIPS CAN FIT ON THE BOARD
     if (NUM_SHIPS > (DIM * DIM) / (5 * 5))
@@ -120,12 +91,14 @@ int main(void)
         break;
     }
 
+    //RANDOMLY SELECTS A PLAYER TO START
+    turn = random() % 2 + 1;
+
     //CHANGES TURNS BETWEEN PLAYERS
     while (player1.hitpoints > 0 && player2.hitpoints > 0)
     {
         if (turn == 1) //PLAYER 1 TURN
         {
-            printf("%d\n", player1.hitpoints);
             printf("WAITING FOR PLAYER 1\n");
             printf("Press <ENTER> to continue!");
             getchar();
@@ -133,7 +106,7 @@ int main(void)
             printEnemyBoard(DIM, player2.board);
             printBoard(DIM, player1.board);
             printf("Player 1's turn!\n");
-            play(player1, player2, DIM, &turn);
+            play(&player1, &player2, DIM, &turn);
         }
         else if (turn == 2) //PLAYER 2 TURN
         {
@@ -144,7 +117,7 @@ int main(void)
             printEnemyBoard(DIM, player1.board);
             printBoard(DIM, player2.board);
             printf("Player 2's turn!\n");
-            play(player2, player1, DIM, &turn);
+            play(&player2, &player1, DIM, &turn);
         }
     }
 
@@ -163,6 +136,12 @@ int main(void)
         printf("Press <ENTER> to end program!");
         getchar();
     }
+
+    //FREE THE ALLOCATED SPACE FOR EACH PLAYER
+    free(player1.board);
+    free(player2.board);
+    free(player1.ship);
+    free(player2.ship);
 
     return 0;
 }
