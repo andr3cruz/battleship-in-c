@@ -92,6 +92,7 @@ int main(void)
     }
 
     //RANDOMLY SELECTS A PLAYER TO START
+    srandom(time(NULL));
     turn = random() % 2 + 1;
 
     //CHANGES TURNS BETWEEN PLAYERS
