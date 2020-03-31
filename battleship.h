@@ -4,21 +4,18 @@
 #ifndef BATTLESHIP_H
 #define BATTLESHIP_H
 
-// INCLUDES
-
+//INCLUDES
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-// MACROS
-
+//MACROS
 #define WATER '~'
 #define HIT 'X'
 #define MISS 'M'
 #define SHIP 'O'
 
-// STRUCTS
-
+//STRUCTS
 typedef enum
 {
     FALSE,
@@ -44,8 +41,7 @@ typedef struct player
     Ship *ship;
 } Player;
 
-// PROTOTYPES
-
+//PROTOTYPES
 void startScreen(void);
 void printBoard(int DIM, Cell **board);
 void printEnemyBoard(int DIM, Cell **board);

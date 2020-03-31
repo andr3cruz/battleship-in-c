@@ -4,21 +4,21 @@
 
 int main(void)
 {
-    int input;                                                         // navigation auxiliary variable
-    int DIM;                                                           // dimension of board
-    int CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS; // individual and total ship counts
-    int turn;                                                          // variable that determines whose turn it is, can take values 1 or 2
-    Player player1;                                                    // player 1 struct
-    Player player2;                                                    // player 2 struct
+    int input;                                                         //navigation auxiliary variable
+    int DIM;                                                           //dimension of board
+    int CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS; //individual and total ship counts
+    int turn;                                                          //variable that determines whose turn it is, can take values 1 or 2
+    Player player1;                                                    //player 1 struct
+    Player player2;                                                    //player 2 struct
 
-    // DISPLAYS THE FIRST TEXT SCREEN
+    //DISPLAYS THE FIRST TEXT SCREEN
     startScreen();
 
     //GETS THE DIMENSION OF THE BOARD
     printf("Choose dimension of board\n");
     scanf("%d", &DIM);
 
-    // GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
+    //GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
     printf("Choose number of Carriers: (minimum 1)\n");
     scanf("%d", &CARRIER);
     if (CARRIER < 1)

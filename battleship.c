@@ -91,6 +91,7 @@ void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, 
     }
 }
 
+//INITILIAZES THE PLAYER GIVEN AS AN ARGUMENT
 void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS)
 {
     player->hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
