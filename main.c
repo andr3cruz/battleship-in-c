@@ -11,14 +11,14 @@ int main(void)
     Player player1;                                                            // player 1 struct
     Player player2;                                                            // player 2 struct
 
-    // DISPLAYS THE FIRST TEXT SCREEN
+    //DISPLAYS THE FIRST TEXT SCREEN
     startScreen();
 
     //GETS THE DIMENSION OF THE BOARD
     printf("Choose dimension of board\n");
     scanf("%d", &DIM);
 
-    // GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
+    //GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
     printf("Choose number of Carriers: (minimum 1)\n");
     scanf("%d", &CARRIER);
     if (CARRIER < 1)
