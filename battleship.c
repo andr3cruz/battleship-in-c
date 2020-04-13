@@ -54,46 +54,113 @@ void initializeBoard(int DIM, Cell **board)
 }
 
 //INITILIAZES THE SHIPS GIVEN AS AN ARGUMENT PUTTING THEM IN AN ARRAY
-void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS)
+void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS)
 {
+
     for (int i = 0; i < NUM_SHIPS; i++) // PLAYER 1 SHIPS
     {
         if (CARRIER > 0)
         {
             watership[i].hitpoints = 5;
             watership[i].name = "Carrier";
+            for (int j = 0; j < 5; j++)
+            {
+                for (int k = 0; k < 5; k++)
+                {
+                    if (j == 2)
+                        watership[i].bitmap[j][k] = SHIP;
+                    else
+                        watership[i].bitmap[j][k] = WATER;
+                }
+            }
             CARRIER--;
         }
         else if (BATTLESHIP > 0)
         {
             watership[i].hitpoints = 4;
             watership[i].name = "Battleship";
+            for (int j = 0; j < 5; j++)
+            {
+                for (int k = 0; k < 5; k++)
+                {
+                    if (j == 2 && k < 4)
+                        watership[i].bitmap[j][k] = SHIP;
+                    else
+                        watership[i].bitmap[j][k] = WATER;
+                }
+            }
             BATTLESHIP--;
         }
         else if (CRUISER > 0)
         {
             watership[i].hitpoints = 3;
             watership[i].name = "Cruiser";
+            for (int j = 0; j < 5; j++)
+            {
+                for (int k = 0; k < 5; k++)
+                {
+                    if (j == 2 && k > 0 && k < 4)
+                        watership[i].bitmap[j][k] = SHIP;
+                    else
+                        watership[i].bitmap[j][k] = WATER;
+                }
+            }
             CRUISER--;
         }
         else if (SUBMARINE > 0)
         {
             watership[i].hitpoints = 3;
             watership[i].name = "Submarine";
+            for (int j = 0; j < 5; j++)
+            {
+                for (int k = 0; k < 5; k++)
+                {
+                    if (j == 2 && k > 0 && k < 4)
+                        watership[i].bitmap[j][k] = SHIP;
+                    else
+                        watership[i].bitmap[j][k] = WATER;
+                }
+            }
             SUBMARINE--;
         }
         else if (DESTROYER > 0)
         {
             watership[i].hitpoints = 2;
             watership[i].name = "Destroyer";
+            for (int j = 0; j < 5; j++)
+            {
+                for (int k = 0; k < 5; k++)
+                {
+                    if (j == 2 && k > 0 && k < 3)
+                        watership[i].bitmap[j][k] = SHIP;
+                    else
+                        watership[i].bitmap[j][k] = WATER;
+                }
+            }
             DESTROYER--;
+        }
+        else if (T_SHIP > 0)
+        {
+            watership[i].hitpoints = 2;
+            watership[i].name = "T_ship";
+            for (int j = 0; j < 5; j++)
+            {
+                for (int k = 0; k < 5; k++)
+                {
+                    if ((j == 1 && k > 0 && k < 4) || (j == 2 && k == 2) || (j == 3 && k == 2))
+                        watership[i].bitmap[j][k] = SHIP;
+                    else
+                        watership[i].bitmap[j][k] = WATER;
+                }
+            }
+            T_SHIP--;
         }
     }
 }
 
-void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int NUM_SHIPS)
+void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS)
 {
-    player->hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2;
+    player->hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2 + T_SHIP * 5;
 
     player->board = malloc(DIM * sizeof(Cell *));
     for (int i = 0; i < DIM; i++)
@@ -104,7 +171,7 @@ void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int
     player->ship = (Ship *)malloc(NUM_SHIPS * sizeof(Ship));
 
     initializeBoard(DIM, player->board);
-    initializeShips(player->ship, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
+    initializeShips(player->ship, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
 }
 
 //AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS ABOVE THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE

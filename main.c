@@ -4,12 +4,12 @@
 
 int main(void)
 {
-    int input;                                                         // navigation auxiliary variable
-    int DIM;                                                           // dimension of board
-    int CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS; // individual and total ship counts
-    int turn;                                                          // variable that determines whose turn it is, can take values 1 or 2
-    Player player1;                                                    // player 1 struct
-    Player player2;                                                    // player 2 struct
+    int input;                                                                 // navigation auxiliary variable
+    int DIM;                                                                   // dimension of board
+    int CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS; // individual and total ship counts
+    int turn;                                                                  // variable that determines whose turn it is, can take values 1 or 2
+    Player player1;                                                            // player 1 struct
+    Player player2;                                                            // player 2 struct
 
     // DISPLAYS THE FIRST TEXT SCREEN
     startScreen();
@@ -54,14 +54,34 @@ int main(void)
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
+    printf("Choose number of T_ships: (minimum 1)\n");
+    scanf("%d", &T_SHIP);
+    if (T_SHIP < 1)
+    {
+        printf("ERROR: Invalid number of ships\n");
+        return 0;
+    }
     system("clear");
 
     //SAVES TOTAL NUMBER OF SHIPS
-    NUM_SHIPS = CARRIER + BATTLESHIP + CRUISER + SUBMARINE + DESTROYER;
+    NUM_SHIPS = CARRIER + BATTLESHIP + CRUISER + SUBMARINE + DESTROYER + T_SHIP;
 
     //INITIALIZES EACH PLAYER
-    initializePlayers(&player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
-    initializePlayers(&player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, NUM_SHIPS);
+    initializePlayers(&player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
+    initializePlayers(&player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
+
+    for (int i = 0; i < NUM_SHIPS; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                printf("%c", player1.ship[i].bitmap[j][k]);
+            }
+            printf("\n");
+        }
+        printf("\n");
+    }
 
     //CHECKS IF SHIPS CAN FIT ON THE BOARD
     if (NUM_SHIPS > (DIM * DIM) / (5 * 5))
