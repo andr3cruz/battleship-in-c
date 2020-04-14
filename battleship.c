@@ -233,6 +233,60 @@ Boolean impossiblePlay(Player player, int DIM, int i, int x, int y)
     return FALSE;
 }
 
+//RETURNS TRUE IF THE PLAY IS POSSIBLE
+Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
+{
+    //CHECKS LEFT CORNER
+    if (x <= 2)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            for (int k = 0; k < 2 - x + 1; k++)
+            {
+                if (player.ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+    //CHECKS TOP
+    if (y <= 2)
+    {
+        for (int j = 0; j < 2 - y + 1; j++)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                if (player.ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+    //CHECKS RIGHT CORNER
+    if (x >= DIM - 3)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            for (int k = 4; k > DIM - x + 2; k--)
+            {
+                if (player.ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+    //CHECKS BOTTOM
+    if (y >= DIM - 3)
+    {
+        for (int j = 4; j > DIM - y + 2; j--)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                if (player.ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+    return TRUE;
+}
+
 //PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT USING AN X AND Y VALUE
 void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
 {
@@ -246,6 +300,13 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
         printf("Type the numerical coordinate Y of where you want to place your ship\n");
         scanf("%d", &y);
         getchar();
+        if (checkPlacement(player, DIM, i, x, y) == TRUE)
+            printf("Possible positioning\n");
+        else
+        {
+            printf("Impossible positioning\n");
+        }
+        /*
         if ((y > DIM) || (x > DIM) || (x <= 0) || (y <= 0) || (player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, DIM, i, x, y) == TRUE))
         {
             i--;
@@ -364,7 +425,7 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
                 break;
             }
             system("clear");
-        }
+        }*/
     }
 }
 

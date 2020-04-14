@@ -70,6 +70,7 @@ int main(void)
     initializePlayers(&player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
     initializePlayers(&player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
 
+    //test loop
     for (int i = 0; i < NUM_SHIPS; i++)
     {
         for (int j = 0; j < 5; j++)
