@@ -354,15 +354,26 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
     {
         printBoard(DIM, player.board);
         printShip(player, i);
-        /*
+
+        printf("1) Rotate ship left\n");
+        printf("2) Rotate ship right\n");
+
         scanf("%d", &input);
         getchar();
-  
-            switch (input){
-                case 1 :
 
-            }
-        */
+        switch (input)
+        {
+        case 1:
+            rotateLeft(player, i);
+            i--;
+            break;
+
+        case 2:
+            rotateRight(player, i);
+            i--;
+            break;
+        }
+        /*
         printf("Type the numerical coordinate X of where you want to place your %s\n", player.ship[i].name);
         scanf("%d", &x);
         getchar();
@@ -377,7 +388,7 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
             getchar();
             system("clear");
         }
-        /*
+
         else
         {
             system("clear");
