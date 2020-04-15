@@ -301,6 +301,51 @@ Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
     return TRUE;
 }
 
+//ROTATES SHIP BITMAP RIGHT
+void rotateRight(Player player, int i)
+{
+    char bitmap[5][5];
+    int aux = 4;
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            bitmap[k][aux] = player.ship[i].bitmap[j][k];
+        }
+        aux--;
+    }
+
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            player.ship[i].bitmap[j][k] = bitmap[j][k];
+        }
+    }
+}
+
+//ROTATES SHIP BITMAP LEFT
+void rotateLeft(Player player, int i)
+{
+    char bitmap[5][5];
+    int aux = 4;
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            bitmap[aux - k][j] = player.ship[i].bitmap[j][k];
+        }
+    }
+
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            player.ship[i].bitmap[j][k] = bitmap[j][k];
+        }
+    }
+}
+
 //PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT USING AN X AND Y VALUE
 void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
 {
@@ -309,6 +354,15 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
     {
         printBoard(DIM, player.board);
         printShip(player, i);
+        /*
+        scanf("%d", &input);
+        getchar();
+  
+            switch (input){
+                case 1 :
+
+            }
+        */
         printf("Type the numerical coordinate X of where you want to place your %s\n", player.ship[i].name);
         scanf("%d", &x);
         getchar();
