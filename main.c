@@ -70,20 +70,6 @@ int main(void)
     initializePlayers(&player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
     initializePlayers(&player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
 
-    //test loop
-    for (int i = 0; i < NUM_SHIPS; i++)
-    {
-        for (int j = 0; j < 5; j++)
-        {
-            for (int k = 0; k < 5; k++)
-            {
-                printf("%c", player1.ship[i].bitmap[j][k]);
-            }
-            printf("\n");
-        }
-        printf("\n");
-    }
-
     //CHECKS IF SHIPS CAN FIT ON THE BOARD
     if (NUM_SHIPS > (DIM * DIM) / (5 * 5))
     {

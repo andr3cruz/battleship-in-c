@@ -43,6 +43,20 @@ void printEnemyBoard(int DIM, Cell **board)
     putchar('\n');
 }
 
+//PRINTS THE SHIP BITMAP
+void printShip(Player player, int i)
+{
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            printf("%c", player.ship[i].bitmap[j][k]);
+        }
+        putchar('\n');
+    }
+    putchar('\n');
+}
+
 //INITILIAZES THE BOARD GIVEN AS AN ARGUMENT WITH SIZE DIM BY DIM IN A 2D ARRAY
 void initializeBoard(int DIM, Cell **board)
 {
@@ -294,20 +308,14 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
     for (int i = 0; i < NUM_SHIPS; i++)
     {
         printBoard(DIM, player.board);
-        printf("Type the numerical coordinate X of where you want to place your ship\n");
+        printShip(player, i);
+        printf("Type the numerical coordinate X of where you want to place your %s\n", player.ship[i].name);
         scanf("%d", &x);
         getchar();
-        printf("Type the numerical coordinate Y of where you want to place your ship\n");
+        printf("Type the numerical coordinate Y of where you want to place your %s\n", player.ship[i].name);
         scanf("%d", &y);
         getchar();
-        if (checkPlacement(player, DIM, i, x, y) == TRUE)
-            printf("Possible positioning\n");
-        else
-        {
-            printf("Impossible positioning\n");
-        }
-        /*
-        if ((y > DIM) || (x > DIM) || (x <= 0) || (y <= 0) || (player.board[y - 1][x - 1].symbol != WATER) || (impossiblePlay(player, DIM, i, x, y) == TRUE))
+        if ((y > DIM) || (x > DIM) || (x <= 0) || (y <= 0) || (player.board[y - 1][x - 1].symbol != WATER) || (checkPlacement(player, DIM, i, x, y) == FALSE))
         {
             i--;
             printf("Invalid operation\n");
@@ -315,6 +323,7 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
             getchar();
             system("clear");
         }
+        /*
         else
         {
             system("clear");
