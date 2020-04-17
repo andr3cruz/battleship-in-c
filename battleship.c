@@ -250,12 +250,38 @@ Boolean impossiblePlay(Player player, int DIM, int i, int x, int y)
 //RETURNS TRUE IF THE PLAY IS POSSIBLE
 Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
 {
+    //CHECKS IF SHIP GOES ON TOP OF ANOTHER
+    int xaux = x - 3;
+    int yaux = y - 3;
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            if (player.board[yaux][xaux++].symbol == SHIP && player.ship[i].bitmap[j][k] == SHIP)
+                return FALSE;
+        }
+        yaux++;
+        xaux = x - 3;
+    }
+
     //CHECKS LEFT CORNER
     if (x <= 2)
     {
         for (int j = 0; j < 5; j++)
         {
             for (int k = 0; k < 2 - x + 1; k++)
+            {
+                if (player.ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+    //CHECKS RIGHT CORNER
+    else if (x >= DIM - 3)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            for (int k = 4; k > DIM - x + 2; k--)
             {
                 if (player.ship[i].bitmap[j][k] == SHIP)
                     return FALSE;
@@ -274,20 +300,9 @@ Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
             }
         }
     }
-    //CHECKS RIGHT CORNER
-    if (x >= DIM - 3)
-    {
-        for (int j = 0; j < 5; j++)
-        {
-            for (int k = 4; k > DIM - x + 2; k--)
-            {
-                if (player.ship[i].bitmap[j][k] == SHIP)
-                    return FALSE;
-            }
-        }
-    }
+
     //CHECKS BOTTOM
-    if (y >= DIM - 3)
+    else if (y >= DIM - 3)
     {
         for (int j = 4; j > DIM - y + 2; j--)
         {
@@ -349,6 +364,21 @@ void rotateLeft(Player player, int i)
 //PLACES THE SHIP IN THE BOARD
 void placeShip(Player player, int DIM, int i, int x, int y)
 {
+    int xaux = x - 3;
+    int yaux = y - 3;
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            if (player.ship[i].bitmap[j][k] == SHIP)
+                player.board[yaux][xaux].symbol = player.ship[i].bitmap[j][k];
+            xaux++;
+        }
+        yaux++;
+        xaux = x - 3;
+    }
+
+    /*
     //CHECKS LEFT CORNER
     if (x <= 2)
     {
@@ -366,7 +396,7 @@ void placeShip(Player player, int DIM, int i, int x, int y)
             }
         }
     }
-    /*
+
     //CHECKS TOP
     if (y <= 2)
     {
@@ -440,7 +470,7 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
             printf("Type the numerical coordinate Y of where you want to place your %s\n", player.ship[i].name);
             scanf("%d", &y);
             getchar();
-            if ((y > DIM) || (x > DIM) || (x <= 0) || (y <= 0) || (player.board[y - 1][x - 1].symbol != WATER) || (checkPlacement(player, DIM, i, x, y) == FALSE))
+            if ((y > DIM) || (x > DIM) || (x <= 0) || (y <= 0) || (checkPlacement(player, DIM, i, x, y) == FALSE))
             {
                 i--;
                 printf("Invalid operation\n");

@@ -57,6 +57,7 @@ Boolean impossiblePlay(Player player, int DIM, int i, int x, int y);
 Boolean checkPlacement(Player player, int DIM, int i, int x, int y);
 void rotateRight(Player player, int i);
 void rotateLeft(Player player, int i);
+void placeShip(Player player, int DIM, int i, int x, int y);
 void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player);
 void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player player);
 void play(Player *player1, Player *player2, int DIM, int *turn);
