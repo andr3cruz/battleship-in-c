@@ -188,65 +188,6 @@ void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int
     initializeShips(player->ship, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
 }
 
-//AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS ABOVE THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
-Boolean checkSpotsUp(Player player, int i, int x, int y)
-{
-    for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
-    {
-        if (player.board[y - 2][x - 1].symbol != WATER)
-            return FALSE;
-        y--;
-    }
-    return TRUE;
-}
-
-//AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS BELOW THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
-Boolean checkSpotsDown(Player player, int i, int x, int y)
-{
-    for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
-    {
-        if (player.board[y][x - 1].symbol != WATER)
-            return FALSE;
-        y++;
-    }
-    return TRUE;
-}
-
-//AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS TO THE LEFT OF THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
-Boolean checkSpotsLeft(Player player, int i, int x, int y)
-{
-    for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
-    {
-        if (player.board[y - 1][x - 2].symbol != WATER)
-            return FALSE;
-        x--;
-    }
-    return TRUE;
-}
-
-//AUXILIARY FUNCTION THAT CHECKS IF THERE IS ANY SHIP ALREADY PLACED IN THE SPOTS TO THE RIGHT OF THE VALUES X AND Y GIVEN, IF THERE IS IT RETURNS FALSE
-Boolean checkSpotsRight(Player player, int i, int x, int y)
-{
-    for (int j = 0; j < player.ship[i].hitpoints - 1; j++)
-    {
-        if (player.board[y - 1][x].symbol != WATER)
-            return FALSE;
-        x++;
-    }
-    return TRUE;
-}
-
-//AUXILIARY FUNCTION THAT CHECKS IF IT IS POSSIBLE TO MAKE ANY PLAY GIVEN AN X AND Y COORDINATE, IF NOT RETURNS TRUE
-Boolean impossiblePlay(Player player, int DIM, int i, int x, int y)
-{
-    if ((player.ship[i].hitpoints > y || (checkSpotsUp(player, i, x, y) == FALSE)) &&
-        ((player.ship[i].hitpoints > DIM - y + 1) || (checkSpotsDown(player, i, x, y) == FALSE)) &&
-        (player.ship[i].hitpoints > x || (checkSpotsLeft(player, i, x, y) == FALSE)) &&
-        ((player.ship[i].hitpoints > DIM - x + 1) || (checkSpotsRight(player, i, x, y) == FALSE)))
-        return TRUE;
-    return FALSE;
-}
-
 //RETURNS TRUE IF THE PLAY IS POSSIBLE
 Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
 {
@@ -467,7 +408,7 @@ void play(Player *player1, Player *player2, int DIM, int *turn)
     scanf("%d", &y);
     getchar();
 
-    if (y > DIM || x > DIM)
+    if (y > DIM || x > DIM || x < 1 || y < 1)
     {
         printf("Invalid operation, play again\n");
         printf("Press <ENTER> to continue!");
