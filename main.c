@@ -11,6 +11,9 @@ int main(void)
     Player player1;                                                            // player 1 struct
     Player player2;                                                            // player 2 struct
 
+    //INITIALIZES THE SEED FOR THE RANDOM FUNCTION
+    srandom(time(NULL));
+
     //DISPLAYS THE FIRST TEXT SCREEN
     startScreen();
 
@@ -99,7 +102,6 @@ int main(void)
     }
 
     //RANDOMLY SELECTS A PLAYER TO START
-    srandom(time(NULL));
     turn = random() % 2 + 1;
 
     //CHANGES TURNS BETWEEN PLAYERS
