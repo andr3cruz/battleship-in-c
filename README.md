@@ -22,8 +22,6 @@ When you run the game you will be welcomed by the start screen
 
 ```bash
 Welcome to Battleship in C!
-
-Choose number of rows on board
 ```
 
 and asked input on the size of the board and how many of each type of ship to play with.
