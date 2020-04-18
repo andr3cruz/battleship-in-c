@@ -44,18 +44,18 @@ typedef struct player
 
 //PROTOTYPES
 void startScreen(void);
-void printBoard(int DIM, Cell **board);
-void printEnemyBoard(int DIM, Cell **board);
+void printBoard(Cell **board, int DIM);
+void printEnemyBoard(Cell **board, int DIM);
 void printShip(Player *player, int i);
-void initializeBoard(int DIM, Cell **board);
+void initializeBoard(Cell **board, int DIM);
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS);
 void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS);
 Boolean checkPlacement(Player *player, int DIM, int i, int x, int y);
 void rotateRight(Player *player, int i);
 void rotateLeft(Player *player, int i);
 void placeShip(Player *player, int DIM, int i, int x, int y);
-void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player *player);
-void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player *player);
+void manuallyPlaceShips(Player *player, int DIM, int NUM_SHIPS);
+void randomlyPlaceShips(Player *player, int DIM, int NUM_SHIPS);
 void play(Player *player1, Player *player2, int DIM, int *turn);
 
 #endif

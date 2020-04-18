@@ -11,7 +11,7 @@ void startScreen(void)
 }
 
 //PRINTS THE BOARD GIVEN AS AN ARGUMENT
-void printBoard(int DIM, Cell **board)
+void printBoard(Cell **board, int DIM)
 {
     for (int i = 0; i < DIM; i++)
     {
@@ -26,7 +26,7 @@ void printBoard(int DIM, Cell **board)
 }
 
 //PRINTS THE BOARD GIVEN AS AN ARGUMENT AND HIDES THE SHIPS
-void printEnemyBoard(int DIM, Cell **board)
+void printEnemyBoard(Cell **board, int DIM)
 {
     for (int i = 0; i < DIM; i++)
     {
@@ -58,7 +58,7 @@ void printShip(Player *player, int i)
 }
 
 //INITILIAZES THE BOARD GIVEN AS AN ARGUMENT WITH SIZE DIM BY DIM IN A 2D ARRAY
-void initializeBoard(int DIM, Cell **board)
+void initializeBoard(Cell **board, int DIM)
 {
     for (int i = 0; i < DIM; i++)
         for (int j = 0; j < DIM; j++)
@@ -172,6 +172,7 @@ void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, 
     }
 }
 
+//ALLOCATES THE MEMORY FOR THE BOARD AND THE SHIPS AND INITIALIZES ALL THE PLAYER VALUES
 void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS)
 {
     player->hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2 + T_SHIP * 5;
@@ -331,13 +332,13 @@ void placeShip(Player *player, int DIM, int i, int x, int y)
     }
 }
 
-//FUNCTION TO ROTATE AND MANUALLY PLACE ALL SHIPS IN THE BOARD
-void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player *player)
+//MANUALLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
+void manuallyPlaceShips(Player *player, int DIM, int NUM_SHIPS)
 {
     int x, y, input;
     for (int i = 0; i < NUM_SHIPS; i++)
     {
-        printBoard(DIM, player->board);
+        printBoard(player->board, DIM);
         printShip(player, i);
 
         printf("1) Rotate ship left\n");
@@ -383,7 +384,7 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player *player)
             break;
         default:
             i--;
-            printf("Invalid operationzzz\n");
+            printf("Invalid operation\n");
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
@@ -393,7 +394,7 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player *player)
 }
 
 //RANDOMLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
-void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player *player)
+void randomlyPlaceShips(Player *player, int DIM, int NUM_SHIPS)
 {
     for (int i = 0; i < NUM_SHIPS; i++)
     {
@@ -441,8 +442,8 @@ void play(Player *player1, Player *player2, int DIM, int *turn)
         case WATER:
             player2->board[y - 1][x - 1].symbol = MISS;
             system("clear");
-            printEnemyBoard(DIM, player2->board);
-            printBoard(DIM, player1->board);
+            printEnemyBoard(player2->board, DIM);
+            printBoard(player1->board, DIM);
             printf("You MISSED!\n");
             printf("Press <ENTER> to continue!");
             getchar();
@@ -455,8 +456,8 @@ void play(Player *player1, Player *player2, int DIM, int *turn)
             player2->hitpoints--;
 
             system("clear");
-            printEnemyBoard(DIM, player2->board);
-            printBoard(DIM, player1->board);
+            printEnemyBoard(player2->board, DIM);
+            printBoard(player1->board, DIM);
             if (player2->board[y - 1][x - 1].ship->hitpoints <= 0)
                 printf("You destroyed the enemy's %s!\n", player2->board[y - 1][x - 1].ship->name);
             else
@@ -468,8 +469,8 @@ void play(Player *player1, Player *player2, int DIM, int *turn)
 
         default:
             system("clear");
-            printEnemyBoard(DIM, player2->board);
-            printBoard(DIM, player1->board);
+            printEnemyBoard(player2->board, DIM);
+            printBoard(player1->board, DIM);
             printf("INVALID PLAY!\n");
             printf("Press <ENTER> to continue!");
             getchar();

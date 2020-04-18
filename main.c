@@ -24,42 +24,42 @@ int main(void)
     //GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
     printf("Choose number of Carriers: (minimum 1)\n");
     scanf("%d", &CARRIER);
-    if (CARRIER < 0)
+    if (CARRIER < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Battleships: (minimum 1)\n");
     scanf("%d", &BATTLESHIP);
-    if (BATTLESHIP < 0)
+    if (BATTLESHIP < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Cruisers: (minimum 1)\n");
     scanf("%d", &CRUISER);
-    if (CRUISER < 0)
+    if (CRUISER < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Submarines: (minimum 1)\n");
     scanf("%d", &SUBMARINE);
-    if (SUBMARINE < 0)
+    if (SUBMARINE < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Destroyers: (minimum 1)\n");
     scanf("%d", &DESTROYER);
-    if (DESTROYER < 0)
+    if (DESTROYER < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of T_ships: (minimum 1)\n");
     scanf("%d", &T_SHIP);
-    if (T_SHIP < 0)
+    if (T_SHIP < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
@@ -90,12 +90,12 @@ int main(void)
     switch (input)
     {
     case 1: //PLACES THE SHIPS MANUALLY
-        manuallyPlaceShips(DIM, NUM_SHIPS, &player1);
-        manuallyPlaceShips(DIM, NUM_SHIPS, &player2);
+        manuallyPlaceShips(&player1, DIM, NUM_SHIPS);
+        manuallyPlaceShips(&player2, DIM, NUM_SHIPS);
         break;
     case 2: //PLACES THE SHIPS RANDOMLY
-        randomlyPlaceShips(DIM, NUM_SHIPS, &player1);
-        randomlyPlaceShips(DIM, NUM_SHIPS, &player2);
+        randomlyPlaceShips(&player1, DIM, NUM_SHIPS);
+        randomlyPlaceShips(&player2, DIM, NUM_SHIPS);
         break;
     default:
         printf("Invalid operation\n");
@@ -118,8 +118,8 @@ int main(void)
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
-            printEnemyBoard(DIM, player2.board);
-            printBoard(DIM, player1.board);
+            printEnemyBoard(player2.board, DIM);
+            printBoard(player1.board, DIM);
             printf("Player 1's turn!\n");
             play(&player1, &player2, DIM, &turn);
         }
@@ -129,8 +129,8 @@ int main(void)
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
-            printEnemyBoard(DIM, player1.board);
-            printBoard(DIM, player2.board);
+            printEnemyBoard(player1.board, DIM);
+            printBoard(player2.board, DIM);
             printf("Player 2's turn!\n");
             play(&player2, &player1, DIM, &turn);
         }
