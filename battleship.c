@@ -44,13 +44,13 @@ void printEnemyBoard(int DIM, Cell **board)
 }
 
 //PRINTS THE SHIP BITMAP
-void printShip(Player player, int i)
+void printShip(Player *player, int i)
 {
     for (int j = 0; j < 5; j++)
     {
         for (int k = 0; k < 5; k++)
         {
-            printf("%c ", player.ship[i].bitmap[j][k]);
+            printf("%c ", player->ship[i].bitmap[j][k]);
         }
         putchar('\n');
     }
@@ -155,7 +155,7 @@ void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, 
         }
         else if (T_SHIP > 0)
         {
-            watership[i].hitpoints = 2;
+            watership[i].hitpoints = 5;
             watership[i].name = "T_ship";
             for (int j = 0; j < 5; j++)
             {
@@ -189,7 +189,7 @@ void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int
 }
 
 //RETURNS TRUE IF THE PLAY IS POSSIBLE
-Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
+Boolean checkPlacement(Player *player, int DIM, int i, int x, int y)
 {
     //CHECKS LEFT CORNER
     if (x <= 2)
@@ -198,11 +198,12 @@ Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
         {
             for (int k = 0; k < 2 - x + 1; k++)
             {
-                if (player.ship[i].bitmap[j][k] == SHIP)
+                if (player->ship[i].bitmap[j][k] == SHIP)
                     return FALSE;
             }
         }
     }
+
     //CHECKS RIGHT CORNER
     else if (x >= DIM - 3)
     {
@@ -210,11 +211,12 @@ Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
         {
             for (int k = 4; k > DIM - x + 2; k--)
             {
-                if (player.ship[i].bitmap[j][k] == SHIP)
+                if (player->ship[i].bitmap[j][k] == SHIP)
                     return FALSE;
             }
         }
     }
+
     //CHECKS TOP
     if (y <= 2)
     {
@@ -222,7 +224,7 @@ Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
         {
             for (int k = 0; k < 5; k++)
             {
-                if (player.ship[i].bitmap[j][k] == SHIP)
+                if (player->ship[i].bitmap[j][k] == SHIP)
                     return FALSE;
             }
         }
@@ -235,32 +237,36 @@ Boolean checkPlacement(Player player, int DIM, int i, int x, int y)
         {
             for (int k = 0; k < 5; k++)
             {
-                if (player.ship[i].bitmap[j][k] == SHIP)
+                if (player->ship[i].bitmap[j][k] == SHIP)
                     return FALSE;
             }
         }
     }
 
-    //CHECKS IF SHIP GOES ON TOP OF ANOTHER
-    int xaux = x - 3;
+    //CHECKS IF A SHIP GOES ON TOP OF ANOTHER
+    int xaux = x - 1;
     int yaux = y - 3;
     for (int j = 0; j < 5; j++)
     {
         for (int k = 0; k < 5; k++)
         {
-            if (player.ship[i].bitmap[j][k] == SHIP)
-                if (player.board[yaux][xaux++].symbol == SHIP)
+            if (player->ship[i].bitmap[j][k] == SHIP)
+            {
+                if (player->board[yaux][xaux].symbol == SHIP)
                     return FALSE;
+                else
+                    xaux++;
+            }
         }
         yaux++;
-        xaux = x - 3;
+        xaux = x - 1;
     }
 
     return TRUE;
 }
 
 //ROTATES SHIP BITMAP RIGHT
-void rotateRight(Player player, int i)
+void rotateRight(Player *player, int i)
 {
     char bitmap[5][5];
     int aux = 4;
@@ -268,7 +274,7 @@ void rotateRight(Player player, int i)
     {
         for (int k = 0; k < 5; k++)
         {
-            bitmap[k][aux] = player.ship[i].bitmap[j][k];
+            bitmap[k][aux] = player->ship[i].bitmap[j][k];
         }
         aux--;
     }
@@ -277,13 +283,13 @@ void rotateRight(Player player, int i)
     {
         for (int k = 0; k < 5; k++)
         {
-            player.ship[i].bitmap[j][k] = bitmap[j][k];
+            player->ship[i].bitmap[j][k] = bitmap[j][k];
         }
     }
 }
 
 //ROTATES SHIP BITMAP LEFT
-void rotateLeft(Player player, int i)
+void rotateLeft(Player *player, int i)
 {
     char bitmap[5][5];
     int aux = 4;
@@ -291,7 +297,7 @@ void rotateLeft(Player player, int i)
     {
         for (int k = 0; k < 5; k++)
         {
-            bitmap[aux - k][j] = player.ship[i].bitmap[j][k];
+            bitmap[aux - k][j] = player->ship[i].bitmap[j][k];
         }
     }
 
@@ -299,13 +305,13 @@ void rotateLeft(Player player, int i)
     {
         for (int k = 0; k < 5; k++)
         {
-            player.ship[i].bitmap[j][k] = bitmap[j][k];
+            player->ship[i].bitmap[j][k] = bitmap[j][k];
         }
     }
 }
 
 //PLACES THE SHIP IN THE BOARD
-void placeShip(Player player, int DIM, int i, int x, int y)
+void placeShip(Player *player, int DIM, int i, int x, int y)
 {
     int xaux = x - 3;
     int yaux = y - 3;
@@ -313,8 +319,11 @@ void placeShip(Player player, int DIM, int i, int x, int y)
     {
         for (int k = 0; k < 5; k++)
         {
-            if (player.ship[i].bitmap[j][k] == SHIP)
-                player.board[yaux][xaux].symbol = player.ship[i].bitmap[j][k];
+            if (player->ship[i].bitmap[j][k] == SHIP)
+            {
+                player->board[yaux][xaux].symbol = player->ship[i].bitmap[j][k];
+                player->board[yaux][xaux].ship = &player->ship[i];
+            }
             xaux++;
         }
         yaux++;
@@ -323,12 +332,12 @@ void placeShip(Player player, int DIM, int i, int x, int y)
 }
 
 //FUNCTION TO ROTATE AND MANUALLY PLACE ALL SHIPS IN THE BOARD
-void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
+void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player *player)
 {
     int x, y, input;
     for (int i = 0; i < NUM_SHIPS; i++)
     {
-        printBoard(DIM, player.board);
+        printBoard(DIM, player->board);
         printShip(player, i);
 
         printf("1) Rotate ship left\n");
@@ -343,17 +352,19 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
         case 1:
             rotateLeft(player, i);
             i--;
+            system("clear");
             break;
 
         case 2:
             rotateRight(player, i);
             i--;
+            system("clear");
             break;
         case 3:
-            printf("Type the numerical coordinate X of where you want to place your %s\n", player.ship[i].name);
+            printf("Type the numerical coordinate X of where you want to place your %s\n", player->ship[i].name);
             scanf("%d", &x);
             getchar();
-            printf("Type the numerical coordinate Y of where you want to place your %s\n", player.ship[i].name);
+            printf("Type the numerical coordinate Y of where you want to place your %s\n", player->ship[i].name);
             scanf("%d", &y);
             getchar();
             if ((y > DIM) || (x > DIM) || (x < 1) || (y < 1) || (checkPlacement(player, DIM, i, x, y) == FALSE))
@@ -369,12 +380,20 @@ void manuallyPlaceShips(int DIM, int NUM_SHIPS, Player player)
                 system("clear");
                 placeShip(player, DIM, i, x, y);
             }
+            break;
+        default:
+            i--;
+            printf("Invalid operationzzz\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+            break;
         }
     }
 }
 
 //RANDOMLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
-void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player player)
+void randomlyPlaceShips(int DIM, int NUM_SHIPS, Player *player)
 {
     for (int i = 0; i < NUM_SHIPS; i++)
     {
@@ -428,40 +447,23 @@ void play(Player *player1, Player *player2, int DIM, int *turn)
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
-            if (*turn == 1)
-                *turn = 2;
-            else
-                *turn = 1;
             break;
 
         case SHIP:
             player2->board[y - 1][x - 1].symbol = HIT;
             player2->board[y - 1][x - 1].ship->hitpoints--;
             player2->hitpoints--;
+
+            system("clear");
+            printEnemyBoard(DIM, player2->board);
+            printBoard(DIM, player1->board);
             if (player2->board[y - 1][x - 1].ship->hitpoints <= 0)
-            {
-                system("clear");
-                printEnemyBoard(DIM, player2->board);
-                printBoard(DIM, player1->board);
                 printf("You destroyed the enemy's %s!\n", player2->board[y - 1][x - 1].ship->name);
-                printf("Press <ENTER> to continue!");
-                getchar();
-                system("clear");
-            }
             else
-            {
-                system("clear");
-                printEnemyBoard(DIM, player2->board);
-                printBoard(DIM, player1->board);
                 printf("You HIT an enemy's ship!\n");
-                printf("Press <ENTER> to continue!");
-                getchar();
-                system("clear");
-            }
-            if (*turn == 1)
-                *turn = 2;
-            else
-                *turn = 1;
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
             break;
 
         default:
@@ -475,4 +477,8 @@ void play(Player *player1, Player *player2, int DIM, int *turn)
             break;
         }
     }
+    if (*turn == 1)
+        *turn = 2;
+    else
+        *turn = 1;
 }

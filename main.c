@@ -24,42 +24,42 @@ int main(void)
     //GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
     printf("Choose number of Carriers: (minimum 1)\n");
     scanf("%d", &CARRIER);
-    if (CARRIER < 1)
+    if (CARRIER < 0)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Battleships: (minimum 1)\n");
     scanf("%d", &BATTLESHIP);
-    if (BATTLESHIP < 1)
+    if (BATTLESHIP < 0)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Cruisers: (minimum 1)\n");
     scanf("%d", &CRUISER);
-    if (CRUISER < 1)
+    if (CRUISER < 0)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Submarines: (minimum 1)\n");
     scanf("%d", &SUBMARINE);
-    if (SUBMARINE < 1)
+    if (SUBMARINE < 0)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Destroyers: (minimum 1)\n");
     scanf("%d", &DESTROYER);
-    if (DESTROYER < 1)
+    if (DESTROYER < 0)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of T_ships: (minimum 1)\n");
     scanf("%d", &T_SHIP);
-    if (T_SHIP < 1)
+    if (T_SHIP < 0)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
@@ -90,14 +90,19 @@ int main(void)
     switch (input)
     {
     case 1: //PLACES THE SHIPS MANUALLY
-        manuallyPlaceShips(DIM, NUM_SHIPS, player1);
-        manuallyPlaceShips(DIM, NUM_SHIPS, player2);
+        manuallyPlaceShips(DIM, NUM_SHIPS, &player1);
+        manuallyPlaceShips(DIM, NUM_SHIPS, &player2);
         break;
     case 2: //PLACES THE SHIPS RANDOMLY
-        randomlyPlaceShips(DIM, NUM_SHIPS, player1);
-        randomlyPlaceShips(DIM, NUM_SHIPS, player2);
+        randomlyPlaceShips(DIM, NUM_SHIPS, &player1);
+        randomlyPlaceShips(DIM, NUM_SHIPS, &player2);
         break;
     default:
+        printf("Invalid operation\n");
+        printf("Press <ENTER> to continue!");
+        getchar();
+        system("clear");
+        return 0;
         break;
     }
 
