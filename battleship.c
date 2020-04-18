@@ -185,7 +185,7 @@ void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int
 
     player->ship = (Ship *)malloc(NUM_SHIPS * sizeof(Ship));
 
-    initializeBoard(DIM, player->board);
+    initializeBoard(player->board, DIM);
     initializeShips(player->ship, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
 }
 
