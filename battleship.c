@@ -245,7 +245,7 @@ Boolean checkPlacement(Player *player, int DIM, int i, int x, int y)
     }
 
     //CHECKS IF A SHIP GOES ON TOP OF ANOTHER
-    int xaux = x - 1;
+    int xaux = x - 3;
     int yaux = y - 3;
     for (int j = 0; j < 5; j++)
     {
@@ -255,12 +255,11 @@ Boolean checkPlacement(Player *player, int DIM, int i, int x, int y)
             {
                 if (player->board[yaux][xaux].symbol == SHIP)
                     return FALSE;
-                else
-                    xaux++;
             }
+            xaux++;
         }
         yaux++;
-        xaux = x - 1;
+        xaux = x - 3;
     }
 
     return TRUE;

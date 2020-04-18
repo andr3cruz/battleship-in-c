@@ -24,42 +24,42 @@ int main(void)
     //GETS HOW MANY SHIPS OF EACH KIND TO CREATE AND VERIFIES CONDITIONS
     printf("Choose number of Carriers: (minimum 1)\n");
     scanf("%d", &CARRIER);
-    if (CARRIER < 0)
+    if (CARRIER < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Battleships: (minimum 1)\n");
     scanf("%d", &BATTLESHIP);
-    if (BATTLESHIP < 0)
+    if (BATTLESHIP < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Cruisers: (minimum 1)\n");
     scanf("%d", &CRUISER);
-    if (CRUISER < 0)
+    if (CRUISER < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Submarines: (minimum 1)\n");
     scanf("%d", &SUBMARINE);
-    if (SUBMARINE < 0)
+    if (SUBMARINE < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of Destroyers: (minimum 1)\n");
     scanf("%d", &DESTROYER);
-    if (DESTROYER < 0)
+    if (DESTROYER < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
     printf("Choose number of T_ships: (minimum 1)\n");
     scanf("%d", &T_SHIP);
-    if (T_SHIP < 0)
+    if (T_SHIP < 1)
     {
         printf("ERROR: Invalid number of ships\n");
         return 0;
