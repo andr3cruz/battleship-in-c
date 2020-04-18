@@ -28,7 +28,56 @@ Choose number of rows on board
 
 and asked input on the size of the board and how many of each type of ship to play with.
 
+There are currently 6 types of ships available: Carrier, Battleship, Cruiser, Submarine, Destroyer and T_ship.
+
+```bash
+~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~
+~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ O O O ~
+O O O O O   O O O O ~   ~ O O O ~   ~ O O O ~   ~ O O ~ ~   ~ ~ O ~ ~
+~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ O ~ ~
+~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~   ~ ~ ~ ~ ~
+```
+
 Then you will be asked if you want to want to deploy your ships **MANUALLY** or **RANDOMLY**
+
+If you choose to deploy ships **MANUALLY** you will be prompted with the following screen:
+
+```bash
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
+~ ~ ~ ~ ~
+~ ~ ~ ~ ~
+O O O O O
+~ ~ ~ ~ ~
+~ ~ ~ ~ ~
+
+1) Rotate ship left
+2) Rotate ship right
+3) Place ship
+```
+
+here you can rotate your ships however you like and place them on the board.
+
+If you choose to deploy ships **RANDOMLY** all the ships will be placed by the program.
 
 Once you deploy all of your ships or choose to have it done for you, you'll be presented with the turn taking screen
 
@@ -42,27 +91,47 @@ the purpose of this screen is for the each player to not see each other's board 
 Once you press ENTER you will be presented with your boards and asked for input on the coordinates of where you want to attack
 
 ```bash
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
-~ ~ ~ ~ ~ ~ O ~ ~ ~
-~ ~ ~ ~ O O O ~ ~ ~
-~ ~ ~ ~ ~ ~ O ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ O O O O ~ ~
-~ ~ ~ ~ ~ ~ ~ O O O
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-O O O O O ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ O O O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ O O O O
+~ ~ ~ O O O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ O O ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 Player 1's turn!
 Type the numerical coordinate X of where you want to ATTACK
