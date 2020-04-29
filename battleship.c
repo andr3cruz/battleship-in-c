@@ -1,5 +1,4 @@
-/* FILE THAT CONTAINS THE FUNCTION CODE OF THE PROTOTYPES
-   LISTED IN BATTLESHIP.H*/
+/* FILE THAT CONTAINS THE FUNCTION CODE OF THE PROTOTYPES LISTED IN BATTLESHIP.H*/
 
 #include "battleship.h"
 
@@ -13,12 +12,26 @@ void startScreen(void)
 //PRINTS THE BOARD GIVEN AS AN ARGUMENT
 void printBoard(Cell **board, int DIM)
 {
+    printf("    ");
+
     for (int i = 0; i < DIM; i++)
     {
+        if (i + 1 < 10)
+            printf(" %d  ", i + 1);
+        else
+            printf(" %d ", i + 1);
+    }
+    putchar('\n');
 
+    for (int i = 0; i < DIM; i++)
+    {
+        if (i + 1 < 10)
+            printf(" %d |", i + 1);
+        else
+            printf("%d |", i + 1);
         for (int j = 0; j < DIM; j++)
         {
-            printf("%c ", board[i][j].symbol);
+            printf(" %c |", board[i][j].symbol);
         }
         putchar('\n');
     }
@@ -28,19 +41,33 @@ void printBoard(Cell **board, int DIM)
 //PRINTS THE BOARD GIVEN AS AN ARGUMENT AND HIDES THE SHIPS
 void printEnemyBoard(Cell **board, int DIM)
 {
+    printf("    ");
+
     for (int i = 0; i < DIM; i++)
     {
+        if (i + 1 < 10)
+            printf(" %d  ", i + 1);
+        else
+            printf(" %d ", i + 1);
+    }
+    putchar('\n');
 
+    for (int i = 0; i < DIM; i++)
+    {
+        if (i + 1 < 10)
+            printf(" %d |", i + 1);
+        else
+            printf("%d |", i + 1);
         for (int j = 0; j < DIM; j++)
         {
             if (board[i][j].symbol == SHIP)
-                printf("%c ", WATER);
+                printf(" %c |", WATER);
             else
-                printf("%c ", board[i][j].symbol);
+                printf(" %c |", board[i][j].symbol);
         }
         putchar('\n');
     }
-    putchar('\n');
+    printf("\n\n");
 }
 
 //PRINTS THE SHIP BITMAP

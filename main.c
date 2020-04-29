@@ -100,12 +100,12 @@ int main(void)
         case 1: //PLACES THE SHIPS MANUALLY
             if (player == 1)
             {
-                printf("PLAYER 1, place your ships:");
+                printf("PLAYER 1, place your ships:\n\n");
                 manuallyPlaceShips(&player1, DIM, NUM_SHIPS);
             }
             else
             {
-                printf("PLAYER 2, place your ships:");
+                printf("PLAYER 2, place your ships:\n\n");
                 manuallyPlaceShips(&player2, DIM, NUM_SHIPS);
             }
             break;
