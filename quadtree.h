@@ -30,13 +30,24 @@ typedef struct qd_node
 {
     QD_TNODE type;
     union {
-        struct QD_NODE *quadrants[4];
+        struct qd_node quadrants[4];
         struct
         {
-            Point coords;
+            Point *coords;
             Cell *cell;
         } leaf;
     } node;
 } QD_Node;
+
+typedef struct PlayerQuad
+{
+    int hitpoints;
+    QD_Node board;
+    Ship *ship;
+} PlayerQuad;
+
+//PROTOTYPES
+QD_Node *search(QD_Node *qtree, Point *p, Point sw_corner, double side);
+void insert_node(QD_Node *qtree, Point *p, Cell *q, double side);
 
 #endif
