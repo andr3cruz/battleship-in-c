@@ -17,34 +17,6 @@
 //STRUCTS
 typedef enum
 {
-    NW,
-    NE,
-    SW,
-    SE
-} Quadrant;
-
-typedef enum
-{
-    QDNODE,
-    QDLEAF
-} QD_TNODE;
-
-typedef struct qd_node
-{
-    QD_TNODE type;
-    union {
-        struct QD_NODE *quadrants[4];
-        struct
-        {
-            int x;
-            int y;
-            Cell *cell;
-        } leaf;
-    } node;
-} QD_Node;
-
-typedef enum
-{
     FALSE,
     TRUE
 } Boolean;
