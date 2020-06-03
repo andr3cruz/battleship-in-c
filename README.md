@@ -18,6 +18,7 @@ make
 ## Game
 
 In this first implementation the game is played with 2 players sharing the same terminal.
+You can choose to use a more time efficient Matrix structure or a more memory efficient PR QuadTree structure for the board.
 When you run the game you will be welcomed by the start screen
 
 ```bash
