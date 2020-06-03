@@ -6,7 +6,7 @@
 void startScreen(void)
 {
     system("clear");
-    printf("Welcome to Battleship in C!\n\n");
+    printf("Welcome to Battleship in C!\n");
 }
 
 //PRINTS THE SHIP BITMAP

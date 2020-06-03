@@ -17,6 +17,7 @@ int main(void)
 
     //DISPLAYS THE FIRST TEXT SCREEN
     startScreen();
+    printf("MATRIX MODE\n\n");
 
     //GETS THE DIMENSION OF THE BOARD
     printf("Choose dimension of board\n");
