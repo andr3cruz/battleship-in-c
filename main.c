@@ -1,6 +1,7 @@
 /* MAIN FUNCTION OF THE BATTLESHIP GAME */
 
 #include "battleship.h"
+#include "matrix.h"
 
 int main(void)
 {

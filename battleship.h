@@ -34,27 +34,12 @@ typedef struct cell
     Ship *ship;
 } Cell;
 
-typedef struct player
-{
-    int hitpoints;
-    Cell **board;
-    Ship *ship;
-} Player;
-
 //PROTOTYPES
 void startScreen(void);
-void printBoard(Cell **board, int DIM);
-void printEnemyBoard(Cell **board, int DIM);
+
 void printShip(Ship *ship, int i);
-void initializeBoard(Cell **board, int DIM);
 void initializeShips(Ship *watership, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS);
-void initializePlayers(Player *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS);
-Boolean checkPlacement(Player *player, int DIM, int i, int x, int y);
 void rotateRight(Ship *ship, int i);
 void rotateLeft(Ship *ship, int i);
-void placeShip(Player *player, int DIM, int i, int x, int y);
-void manuallyPlaceShips(Player *player, int DIM, int NUM_SHIPS);
-void randomlyPlaceShips(Player *player, int DIM, int NUM_SHIPS);
-void play(Player *player1, Player *player2, int DIM, int *turn);
 
 #endif
