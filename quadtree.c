@@ -73,21 +73,21 @@ void insert_node(QD_Node *qtree, Point *p, Cell *q, double side)
     }
 }
 
-void initializePlayersQuad(PlayerQuad player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS)
+void initializePlayersQuad(PlayerQuad *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS)
 {
-    player.hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2 + T_SHIP * 5;
+    player->hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2 + T_SHIP * 5;
 
-    player.board = (QD_Node *)malloc(sizeof(QD_Node));
-    player.board->type = QDLEAF;
-    player.board->node.leaf.cell = NULL;
-    player.board->node.leaf.coords = NULL;
+    player->board = (QD_Node *)malloc(sizeof(QD_Node));
+    player->board->type = QDLEAF;
+    player->board->node.leaf.cell = NULL;
+    player->board->node.leaf.coords = NULL;
 
-    player.ship = (Ship *)malloc(NUM_SHIPS * sizeof(Ship));
+    player->ship = (Ship *)malloc(NUM_SHIPS * sizeof(Ship));
 
-    initializeShips(player.ship, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
+    initializeShips(player->ship, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
 }
 
-void manuallyPlaceShipsQuad(PlayerQuad player, int DIM, int NUM_SHIPS)
+void manuallyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
 {
     int x, y, input;
 
@@ -95,7 +95,7 @@ void manuallyPlaceShipsQuad(PlayerQuad player, int DIM, int NUM_SHIPS)
     {
         printBoardQuad(player, DIM);
         putchar('\n');
-        printShip(player.ship, i);
+        printShip(player->ship, i);
 
         printf("1) Rotate ship left\n");
         printf("2) Rotate ship right\n");
@@ -107,13 +107,13 @@ void manuallyPlaceShipsQuad(PlayerQuad player, int DIM, int NUM_SHIPS)
         switch (input)
         {
         case 1:
-            rotateLeft(player.ship, i);
+            rotateLeft(player->ship, i);
             i--;
             system("clear");
             break;
 
         case 2:
-            rotateRight(player.ship, i);
+            rotateRight(player->ship, i);
             i--;
             system("clear");
             break;
@@ -150,7 +150,7 @@ void manuallyPlaceShipsQuad(PlayerQuad player, int DIM, int NUM_SHIPS)
     }
 }
 
-void printBoardQuad(PlayerQuad player, int DIM)
+void printBoardQuad(PlayerQuad *player, int DIM)
 {
     Point aux2;
     aux2.x = 0;
@@ -160,14 +160,15 @@ void printBoardQuad(PlayerQuad player, int DIM)
     {
         for (int j = 0; j < DIM; j++)
         {
-            Point *aux;
+            Point *aux = (Point *)malloc(sizeof(Point));
             aux->x = i;
             aux->y = j;
-            QD_Node *square = search(player.board, aux, aux2, DIM);
+            QD_Node *square = search(player->board, aux, aux2, DIM);
             if (square->node.leaf.coords == NULL)
                 printf("%c ", WATER);
             if (j == DIM - 1)
                 putchar('\n');
+            free(aux);
         }
     }
 }

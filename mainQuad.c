@@ -37,7 +37,6 @@ int main(void)
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
-    /*
     printf("Choose number of Cruisers: (minimum 1)\n");
     scanf("%d", &CRUISER);
     if (CRUISER < 1)
@@ -67,16 +66,16 @@ int main(void)
         return 0;
     }
     system("clear");
-    
+
     //SAVES TOTAL NUMBER OF SHIPS
     NUM_SHIPS = CARRIER + BATTLESHIP + CRUISER + SUBMARINE + DESTROYER + T_SHIP;
-    
-    //INITIALIZES EACH PLAYER
-    initializePlayersQuad(player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
-    initializePlayersQuad(player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
-    
-    manuallyPlaceShipsQuad(player1, DIM, NUM_SHIPS);
 
+    //INITIALIZES EACH PLAYER
+    initializePlayersQuad(&player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
+    initializePlayersQuad(&player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
+
+    manuallyPlaceShipsQuad(&player1, DIM, NUM_SHIPS);
+    /*
 
     //CHECKS IF SHIPS CAN FIT ON THE BOARD
     if (NUM_SHIPS > (DIM * DIM) / (5 * 5))
