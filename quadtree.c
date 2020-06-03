@@ -117,7 +117,6 @@ void manuallyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
             i--;
             system("clear");
             break;
-        /*
         case 3:
             printf("Type the numerical coordinate X of where you want to place your %s\n", player->ship[i].name);
             scanf("%d", &x);
@@ -125,7 +124,7 @@ void manuallyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
             printf("Type the numerical coordinate Y of where you want to place your %s\n", player->ship[i].name);
             scanf("%d", &y);
             getchar();
-            if ((y > DIM) || (x > DIM) || (x < 1) || (y < 1) || (checkPlacement(player, DIM, i, x, y) == FALSE))
+            if ((y > DIM) || (x > DIM) || (x < 1) || (y < 1) || (checkPlacementQuad(player, DIM, i, x, y) == FALSE))
             {
                 i--;
                 printf("Invalid operation\n");
@@ -135,10 +134,10 @@ void manuallyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
             }
             else
             {
+                placeShipQuad(player, DIM, i, x, y);
                 system("clear");
             }
             break;
-        */
         default:
             i--;
             printf("Invalid operation\n");
@@ -166,9 +165,122 @@ void printBoardQuad(PlayerQuad *player, int DIM)
             QD_Node *square = search(player->board, aux, aux2, DIM);
             if (square->node.leaf.coords == NULL)
                 printf("%c ", WATER);
+            else
+            {
+                printf("%c ", SHIP);
+            }
             if (j == DIM - 1)
                 putchar('\n');
             free(aux);
         }
+    }
+}
+
+//RETURNS TRUE IF THE PLAY IS POSSIBLE
+Boolean checkPlacementQuad(PlayerQuad *player, int DIM, int i, int x, int y)
+{
+    //CHECKS LEFT CORNER
+    if (x <= 2)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            for (int k = 0; k < 2 - x + 1; k++)
+            {
+                if (player->ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+
+    //CHECKS RIGHT CORNER
+    else if (x >= DIM - 3)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            for (int k = 4; k > DIM - x + 2; k--)
+            {
+                if (player->ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+
+    //CHECKS TOP
+    if (y <= 2)
+    {
+        for (int j = 0; j < 2 - y + 1; j++)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                if (player->ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+
+    //CHECKS BOTTOM
+    else if (y >= DIM - 3)
+    {
+        for (int j = 4; j > DIM - y + 2; j--)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                if (player->ship[i].bitmap[j][k] == SHIP)
+                    return FALSE;
+            }
+        }
+    }
+
+    //CHECKS IF A SHIP GOES ON TOP OF ANOTHER
+    Point aux2;
+    aux2.x = 0;
+    aux2.y = 0;
+    int xaux = x - 3;
+    int yaux = y - 3;
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            if (player->ship[i].bitmap[j][k] == SHIP)
+            {
+                Point *aux = (Point *)malloc(sizeof(Point));
+                aux->x = xaux;
+                aux->y = yaux;
+                QD_Node *square = search(player->board, aux, aux2, DIM);
+                if (square->node.leaf.coords != NULL && (square->node.leaf.coords == aux) == 0)
+                {
+                    return FALSE;
+                }
+            }
+            xaux++;
+        }
+        yaux++;
+        xaux = x - 3;
+    }
+    return TRUE;
+}
+
+void placeShipQuad(PlayerQuad *player, int DIM, int i, int x, int y)
+{
+    int xaux = x - 3;
+    int yaux = y - 3;
+    for (int j = 0; j < 5; j++)
+    {
+        for (int k = 0; k < 5; k++)
+        {
+            if (player->ship[i].bitmap[j][k] == SHIP)
+            {
+                Cell *aux = (Cell *)malloc(sizeof(Cell));
+                aux->ship = &player->ship[i];
+                aux->symbol = player->ship[i].bitmap[j][k];
+                Point *point = (Point *)malloc(sizeof(Point));
+                point->x = j;
+                point->y = k;
+                insert_node(player->board, point, aux, DIM);
+            }
+            xaux++;
+        }
+        yaux++;
+        xaux = x - 3;
     }
 }

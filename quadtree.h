@@ -52,5 +52,7 @@ void insert_node(QD_Node *qtree, Point *p, Cell *q, double side);
 void initializePlayersQuad(PlayerQuad *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS);
 void manuallyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS);
 void printBoardQuad(PlayerQuad *player, int DIM);
+Boolean checkPlacementQuad(PlayerQuad *player, int DIM, int i, int x, int y);
+void placeShipQuad(PlayerQuad *player, int DIM, int i, int x, int y);
 
 #endif
