@@ -71,13 +71,13 @@ void printEnemyBoard(Cell **board, int DIM)
 }
 
 //PRINTS THE SHIP BITMAP
-void printShip(Player *player, int i)
+void printShip(Ship *ship, int i)
 {
     for (int j = 0; j < 5; j++)
     {
         for (int k = 0; k < 5; k++)
         {
-            printf("%c ", player->ship[i].bitmap[j][k]);
+            printf("%c ", ship[i].bitmap[j][k]);
         }
         putchar('\n');
     }
@@ -293,7 +293,7 @@ Boolean checkPlacement(Player *player, int DIM, int i, int x, int y)
 }
 
 //ROTATES SHIP BITMAP RIGHT
-void rotateRight(Player *player, int i)
+void rotateRight(Ship *ship, int i)
 {
     char bitmap[5][5];
     int aux = 4;
@@ -301,7 +301,7 @@ void rotateRight(Player *player, int i)
     {
         for (int k = 0; k < 5; k++)
         {
-            bitmap[k][aux] = player->ship[i].bitmap[j][k];
+            bitmap[k][aux] = ship[i].bitmap[j][k];
         }
         aux--;
     }
@@ -310,13 +310,13 @@ void rotateRight(Player *player, int i)
     {
         for (int k = 0; k < 5; k++)
         {
-            player->ship[i].bitmap[j][k] = bitmap[j][k];
+            ship[i].bitmap[j][k] = bitmap[j][k];
         }
     }
 }
 
 //ROTATES SHIP BITMAP LEFT
-void rotateLeft(Player *player, int i)
+void rotateLeft(Ship *ship, int i)
 {
     char bitmap[5][5];
     int aux = 4;
@@ -324,7 +324,7 @@ void rotateLeft(Player *player, int i)
     {
         for (int k = 0; k < 5; k++)
         {
-            bitmap[aux - k][j] = player->ship[i].bitmap[j][k];
+            bitmap[aux - k][j] = ship[i].bitmap[j][k];
         }
     }
 
@@ -332,7 +332,7 @@ void rotateLeft(Player *player, int i)
     {
         for (int k = 0; k < 5; k++)
         {
-            player->ship[i].bitmap[j][k] = bitmap[j][k];
+            ship[i].bitmap[j][k] = bitmap[j][k];
         }
     }
 }
@@ -365,7 +365,7 @@ void manuallyPlaceShips(Player *player, int DIM, int NUM_SHIPS)
     for (int i = 0; i < NUM_SHIPS; i++)
     {
         printBoard(player->board, DIM);
-        printShip(player, i);
+        printShip(player->ship, i);
 
         printf("1) Rotate ship left\n");
         printf("2) Rotate ship right\n");
@@ -377,13 +377,13 @@ void manuallyPlaceShips(Player *player, int DIM, int NUM_SHIPS)
         switch (input)
         {
         case 1:
-            rotateLeft(player, i);
+            rotateLeft(player->ship, i);
             i--;
             system("clear");
             break;
 
         case 2:
-            rotateRight(player, i);
+            rotateRight(player->ship, i);
             i--;
             system("clear");
             break;
@@ -427,7 +427,7 @@ void randomlyPlaceShips(Player *player, int DIM, int NUM_SHIPS)
         int rotations = random() % 10;
         for (int j = 0; j < rotations; j++)
         {
-            rotateLeft(player, i);
+            rotateLeft(player->ship, i);
         }
         int x = random() % DIM + 1;
         int y = random() % DIM + 1;

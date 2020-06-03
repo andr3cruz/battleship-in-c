@@ -1,6 +1,7 @@
 /* MAIN FUNCTION OF THE BATTLESHIP GAME */
 
 #include "battleship.h"
+#include "quadtree.h"
 
 int main(void)
 {
@@ -8,8 +9,8 @@ int main(void)
     int DIM;                                                                   // dimension of board
     int CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS; // individual and total ship counts
     int turn;                                                                  // variable that determines whose turn it is, can take values 1 or 2
-    Player player1;                                                            // player 1 struct
-    Player player2;                                                            // player 2 struct
+    PlayerQuad player1;                                                        // player 1 struct
+    PlayerQuad player2;                                                        // player 2 struct
 
     //INITIALIZES THE SEED FOR THE RANDOM FUNCTION
     srandom(time(NULL));
@@ -36,6 +37,7 @@ int main(void)
         printf("ERROR: Invalid number of ships\n");
         return 0;
     }
+    /*
     printf("Choose number of Cruisers: (minimum 1)\n");
     scanf("%d", &CRUISER);
     if (CRUISER < 1)
@@ -65,13 +67,16 @@ int main(void)
         return 0;
     }
     system("clear");
-
+    
     //SAVES TOTAL NUMBER OF SHIPS
     NUM_SHIPS = CARRIER + BATTLESHIP + CRUISER + SUBMARINE + DESTROYER + T_SHIP;
-
+    
     //INITIALIZES EACH PLAYER
-    initializePlayers(&player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
-    initializePlayers(&player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
+    initializePlayersQuad(player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
+    initializePlayersQuad(player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
+    
+    manuallyPlaceShipsQuad(player1, DIM, NUM_SHIPS);
+
 
     //CHECKS IF SHIPS CAN FIT ON THE BOARD
     if (NUM_SHIPS > (DIM * DIM) / (5 * 5))
@@ -101,14 +106,13 @@ int main(void)
             if (player == 1)
             {
                 printf("PLAYER 1, place your ships:\n\n");
-                manuallyPlaceShips(&player1, DIM, NUM_SHIPS);
+                manuallyPlaceShipsQuad(&player1, DIM, NUM_SHIPS);
             }
             else
             {
                 printf("PLAYER 2, place your ships:\n\n");
-                manuallyPlaceShips(&player2, DIM, NUM_SHIPS);
+                manuallyPlaceShipsQuad(&player2, DIM, NUM_SHIPS);
             }
-            break;
         case 2: //PLACES THE SHIPS RANDOMLY
             if (player == 1)
                 randomlyPlaceShips(&player1, DIM, NUM_SHIPS);
@@ -125,7 +129,6 @@ int main(void)
             break;
         }
     }
-
     //RANDOMLY SELECTS A PLAYER TO START
     turn = random() % 2 + 1;
 
@@ -177,6 +180,7 @@ int main(void)
     free(player2.board);
     free(player1.ship);
     free(player2.ship);
+*/
 
     return 0;
 }
