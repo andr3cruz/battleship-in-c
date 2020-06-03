@@ -74,9 +74,6 @@ int main(void)
     initializePlayersQuad(&player1, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
     initializePlayersQuad(&player2, DIM, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
 
-    manuallyPlaceShipsQuad(&player1, DIM, NUM_SHIPS);
-    /*
-
     //CHECKS IF SHIPS CAN FIT ON THE BOARD
     if (NUM_SHIPS > (DIM * DIM) / (5 * 5))
     {
@@ -114,9 +111,9 @@ int main(void)
             }
         case 2: //PLACES THE SHIPS RANDOMLY
             if (player == 1)
-                randomlyPlaceShips(&player1, DIM, NUM_SHIPS);
+                randomlyPlaceShipsQuad(&player1, DIM, NUM_SHIPS);
             else
-                randomlyPlaceShips(&player2, DIM, NUM_SHIPS);
+                randomlyPlaceShipsQuad(&player2, DIM, NUM_SHIPS);
 
             break;
         default:
@@ -140,10 +137,10 @@ int main(void)
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
-            printEnemyBoard(player2.board, DIM);
-            printBoard(player1.board, DIM);
+            printEnemyBoardQuad(&player2, DIM);
+            printBoardQuad(&player1, DIM);
             printf("Player 1's turn!\n");
-            play(&player1, &player2, DIM, &turn);
+            playQuad(&player1, &player2, DIM, &turn);
         }
         else if (turn == 2) //PLAYER 2 TURN
         {
@@ -151,10 +148,10 @@ int main(void)
             printf("Press <ENTER> to continue!");
             getchar();
             system("clear");
-            printEnemyBoard(player1.board, DIM);
-            printBoard(player2.board, DIM);
+            printEnemyBoardQuad(&player1, DIM);
+            printBoardQuad(&player2, DIM);
             printf("Player 2's turn!\n");
-            play(&player2, &player1, DIM, &turn);
+            playQuad(&player2, &player1, DIM, &turn);
         }
     }
 
@@ -179,7 +176,6 @@ int main(void)
     free(player2.board);
     free(player1.ship);
     free(player2.ship);
-*/
 
     return 0;
 }

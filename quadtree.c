@@ -149,6 +149,29 @@ void manuallyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
     }
 }
 
+void randomlyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
+{
+    for (int i = 0; i < NUM_SHIPS; i++)
+    {
+        int rotations = random() % 10;
+        for (int j = 0; j < rotations; j++)
+        {
+            rotateLeft(player->ship, i);
+        }
+        int x = random() % DIM + 1;
+        int y = random() % DIM + 1;
+        if (checkPlacementQuad(player, DIM, i, x, y) == FALSE)
+        {
+            i--;
+        }
+        else
+        {
+            system("clear");
+            placeShipQuad(player, DIM, i, x, y);
+        }
+    }
+}
+
 void printBoardQuad(PlayerQuad *player, int DIM)
 {
     Point aux2;
@@ -163,17 +186,38 @@ void printBoardQuad(PlayerQuad *player, int DIM)
             aux->x = i;
             aux->y = j;
             QD_Node *square = search(player->board, aux, aux2, DIM);
-            if (square->node.leaf.coords == NULL)
-                printf("%c ", WATER);
+            if (square->node.leaf.coords != NULL && equalCoordinates(square->node.leaf.coords, aux) == TRUE)
+                printf("%c ", square->node.leaf.cell->symbol);
             else
-            {
-                printf("%c ", SHIP);
-            }
-            if (j == DIM - 1)
-                putchar('\n');
-            free(aux);
+                printf("%c ", WATER);
         }
+        putchar('\n');
     }
+    printf("\n\n");
+}
+
+void printEnemyBoardQuad(PlayerQuad *player, int DIM)
+{
+    Point aux2;
+    aux2.x = 0;
+    aux2.y = 0;
+
+    for (int i = 0; i < DIM; i++)
+    {
+        for (int j = 0; j < DIM; j++)
+        {
+            Point *aux = (Point *)malloc(sizeof(Point));
+            aux->x = i;
+            aux->y = j;
+            QD_Node *square = search(player->board, aux, aux2, DIM);
+            if (square->node.leaf.coords != NULL && equalCoordinates(square->node.leaf.coords, aux) == TRUE && square->node.leaf.cell->symbol != SHIP)
+                printf("%c ", square->node.leaf.cell->symbol);
+            else
+                printf("%c ", WATER);
+        }
+        putchar('\n');
+    }
+    printf("\n\n");
 }
 
 //RETURNS TRUE IF THE PLAY IS POSSIBLE
@@ -235,8 +279,8 @@ Boolean checkPlacementQuad(PlayerQuad *player, int DIM, int i, int x, int y)
     Point aux2;
     aux2.x = 0;
     aux2.y = 0;
-    int xaux = x - 3;
-    int yaux = y - 3;
+    int xaux = y - 3;
+    int yaux = x - 3;
     for (int j = 0; j < 5; j++)
     {
         for (int k = 0; k < 5; k++)
@@ -247,23 +291,23 @@ Boolean checkPlacementQuad(PlayerQuad *player, int DIM, int i, int x, int y)
                 aux->x = xaux;
                 aux->y = yaux;
                 QD_Node *square = search(player->board, aux, aux2, DIM);
-                if (square->node.leaf.coords != NULL && (square->node.leaf.coords == aux) == 0)
+                if ((square->node.leaf.coords != NULL) && (equalCoordinates(square->node.leaf.coords, aux) == TRUE))
                 {
                     return FALSE;
                 }
             }
-            xaux++;
+            yaux++;
         }
-        yaux++;
-        xaux = x - 3;
+        xaux++;
+        yaux = x - 3;
     }
     return TRUE;
 }
 
 void placeShipQuad(PlayerQuad *player, int DIM, int i, int x, int y)
 {
-    int xaux = x - 3;
-    int yaux = y - 3;
+    int xaux = y - 3;
+    int yaux = x - 3;
     for (int j = 0; j < 5; j++)
     {
         for (int k = 0; k < 5; k++)
@@ -274,13 +318,98 @@ void placeShipQuad(PlayerQuad *player, int DIM, int i, int x, int y)
                 aux->ship = &player->ship[i];
                 aux->symbol = player->ship[i].bitmap[j][k];
                 Point *point = (Point *)malloc(sizeof(Point));
-                point->x = j;
-                point->y = k;
+                point->x = xaux;
+                point->y = yaux;
                 insert_node(player->board, point, aux, DIM);
             }
-            xaux++;
+            yaux++;
         }
-        yaux++;
-        xaux = x - 3;
+        xaux++;
+        yaux = x - 3;
     }
+}
+
+void playQuad(PlayerQuad *player1, PlayerQuad *player2, int DIM, int *turn)
+{
+    Point aux2;
+    aux2.x = 0;
+    aux2.y = 0;
+    int x, y;
+    printf("Type the numerical coordinate X of where you want to ATTACK\n");
+    scanf("%d", &x);
+    getchar();
+    printf("Type the numerical coordinate Y of where you want to ATTACK\n");
+    scanf("%d", &y);
+    getchar();
+
+    if (y > DIM || x > DIM || x < 1 || y < 1)
+    {
+        printf("Invalid operation, play again\n");
+        printf("Press <ENTER> to continue!");
+        getchar();
+        system("clear");
+    }
+    else
+    {
+        Point *point = (Point *)malloc(sizeof(Point));
+        point->x = y - 1;
+        point->y = x - 1;
+
+        QD_Node *square = search(player2->board, point, aux2, DIM);
+
+        if (square->node.leaf.coords != NULL && equalCoordinates(square->node.leaf.coords, point) == TRUE && square->node.leaf.cell->symbol == SHIP)
+        {
+            square->node.leaf.cell->symbol = HIT;
+            square->node.leaf.cell->ship->hitpoints--;
+            player2->hitpoints--;
+
+            system("clear");
+            printEnemyBoardQuad(player2, DIM);
+            printBoardQuad(player1, DIM);
+            if (square->node.leaf.cell->ship->hitpoints <= 0)
+                printf("You destroyed the enemy's %s!\n", square->node.leaf.cell->ship->name);
+            else
+                printf("You HIT an enemy's ship!\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+        }
+        else if (square->node.leaf.coords != NULL && equalCoordinates(square->node.leaf.coords, point) == FALSE || square->node.leaf.coords == NULL)
+        {
+            Cell *aux = (Cell *)malloc(sizeof(Cell));
+            aux->symbol = MISS;
+            aux->ship = NULL;
+            insert_node(player2->board, point, aux, DIM);
+            system("clear");
+
+            printEnemyBoardQuad(player2, DIM);
+            printBoardQuad(player1, DIM);
+            printf("You MISSED!\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+        }
+        else
+        {
+            system("clear");
+            printEnemyBoardQuad(player2, DIM);
+            printBoardQuad(player1, DIM);
+            printf("INVALID PLAY!\n");
+            printf("Press <ENTER> to continue!");
+            getchar();
+            system("clear");
+        }
+    }
+    if (*turn == 1)
+        *turn = 2;
+    else
+        *turn = 1;
+}
+
+Boolean equalCoordinates(Point *a, Point *b)
+{
+    if ((a->x == b->x) && (a->y == b->y))
+        return TRUE;
+    else
+        return FALSE;
 }
