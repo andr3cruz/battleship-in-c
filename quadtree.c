@@ -184,8 +184,23 @@ void printBoardQuad(PlayerQuad *player, int DIM)
     aux2.x = 0;
     aux2.y = 0;
 
+    printf("    ");
+
     for (int i = 0; i < DIM; i++)
     {
+        if (i + 1 < 10)
+            printf(" %d  ", i + 1);
+        else
+            printf(" %d ", i + 1);
+    }
+    putchar('\n');
+
+    for (int i = 0; i < DIM; i++)
+    {
+        if (i + 1 < 10)
+            printf(" %d |", i + 1);
+        else
+            printf("%d |", i + 1);
         for (int j = 0; j < DIM; j++)
         {
             Point *aux = (Point *)malloc(sizeof(Point));
@@ -193,9 +208,9 @@ void printBoardQuad(PlayerQuad *player, int DIM)
             aux->y = j;
             QD_Node *square = search(player->board, aux, aux2, DIM);
             if (square->node.leaf.coords != NULL && equalCoordinates(square->node.leaf.coords, aux) == TRUE)
-                printf("%c ", square->node.leaf.cell->symbol);
+                printf(" %c |", square->node.leaf.cell->symbol);
             else
-                printf("%c ", WATER);
+                printf(" %c |", WATER);
         }
         putchar('\n');
     }
@@ -209,8 +224,23 @@ void printEnemyBoardQuad(PlayerQuad *player, int DIM)
     aux2.x = 0;
     aux2.y = 0;
 
+    printf("    ");
+
     for (int i = 0; i < DIM; i++)
     {
+        if (i + 1 < 10)
+            printf(" %d  ", i + 1);
+        else
+            printf(" %d ", i + 1);
+    }
+    putchar('\n');
+
+    for (int i = 0; i < DIM; i++)
+    {
+        if (i + 1 < 10)
+            printf(" %d |", i + 1);
+        else
+            printf("%d |", i + 1);
         for (int j = 0; j < DIM; j++)
         {
             Point *aux = (Point *)malloc(sizeof(Point));
@@ -218,9 +248,9 @@ void printEnemyBoardQuad(PlayerQuad *player, int DIM)
             aux->y = j;
             QD_Node *square = search(player->board, aux, aux2, DIM);
             if (square->node.leaf.coords != NULL && equalCoordinates(square->node.leaf.coords, aux) == TRUE && square->node.leaf.cell->symbol != SHIP)
-                printf("%c ", square->node.leaf.cell->symbol);
+                printf(" %c |", square->node.leaf.cell->symbol);
             else
-                printf("%c ", WATER);
+                printf(" %c |", WATER);
         }
         putchar('\n');
     }
