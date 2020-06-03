@@ -1,6 +1,7 @@
 /* FILE THAT CONTAINS THE FUNCTION CODE OF THE PROTOTYPES LISTED IN QUADTREE.H*/
 #include "quadtree.h"
 
+//RETURNS THE NODE WHERE THE POINT P IS LOCATED
 QD_Node *search(QD_Node *qtree, Point *p, Point sw_corner, double side)
 {
     if (qtree->type == QDNODE)
@@ -42,6 +43,7 @@ QD_Node *search(QD_Node *qtree, Point *p, Point sw_corner, double side)
     return qtree;
 }
 
+//INSERTS A CELL WHERE THE POINT P IS LOCATED
 void insert_node(QD_Node *qtree, Point *p, Cell *q, double side)
 {
     Point lower;
@@ -73,6 +75,7 @@ void insert_node(QD_Node *qtree, Point *p, Cell *q, double side)
     }
 }
 
+//ALLOCATES THE MEMORY FOR THE BOARD AND THE SHIPS AND INITIALIZES ALL THE PLAYER VALUES
 void initializePlayersQuad(PlayerQuad *player, int DIM, int CARRIER, int BATTLESHIP, int CRUISER, int SUBMARINE, int DESTROYER, int T_SHIP, int NUM_SHIPS)
 {
     player->hitpoints = CARRIER * 5 + BATTLESHIP * 4 + CRUISER * 3 + SUBMARINE * 3 + DESTROYER * 2 + T_SHIP * 5;
@@ -87,6 +90,7 @@ void initializePlayersQuad(PlayerQuad *player, int DIM, int CARRIER, int BATTLES
     initializeShips(player->ship, CARRIER, BATTLESHIP, CRUISER, SUBMARINE, DESTROYER, T_SHIP, NUM_SHIPS);
 }
 
+//MANUALLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
 void manuallyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
 {
     int x, y, input;
@@ -149,6 +153,7 @@ void manuallyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
     }
 }
 
+//RANDOMLY PLACES THE SHIPS IN THE BOARD OF THE PLAYER GIVEN AS ARGUMENT
 void randomlyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
 {
     for (int i = 0; i < NUM_SHIPS; i++)
@@ -172,6 +177,7 @@ void randomlyPlaceShipsQuad(PlayerQuad *player, int DIM, int NUM_SHIPS)
     }
 }
 
+//PRINTS THE BOARD GIVEN AS AN ARGUMENT
 void printBoardQuad(PlayerQuad *player, int DIM)
 {
     Point aux2;
@@ -196,6 +202,7 @@ void printBoardQuad(PlayerQuad *player, int DIM)
     printf("\n\n");
 }
 
+//PRINTS THE BOARD GIVEN AS AN ARGUMENT AND HIDES THE SHIPS
 void printEnemyBoardQuad(PlayerQuad *player, int DIM)
 {
     Point aux2;
@@ -304,6 +311,7 @@ Boolean checkPlacementQuad(PlayerQuad *player, int DIM, int i, int x, int y)
     return TRUE;
 }
 
+//PLACES THE SHIP IN THE BOARD
 void placeShipQuad(PlayerQuad *player, int DIM, int i, int x, int y)
 {
     int xaux = y - 3;
@@ -329,6 +337,7 @@ void placeShipQuad(PlayerQuad *player, int DIM, int i, int x, int y)
     }
 }
 
+//PLAY FUNCTION WHERE PLAYER1 IS THE ATTACKER AND PLAYER2 THE RECEIVER OF THE ATTACK
 void playQuad(PlayerQuad *player1, PlayerQuad *player2, int DIM, int *turn)
 {
     Point aux2;
@@ -406,6 +415,7 @@ void playQuad(PlayerQuad *player1, PlayerQuad *player2, int DIM, int *turn)
         *turn = 1;
 }
 
+//RETURNS TRUE IF POINT A HAS THE SAME X AND Y VALUES AS POINT B
 Boolean equalCoordinates(Point *a, Point *b)
 {
     if ((a->x == b->x) && (a->y == b->y))
