@@ -8,17 +8,26 @@ Made as a project for Programming Lab (CC 2013)
 
 ## Command Line
 
-The game can be compiled and ran via terminal using the simple Makefile script:
+The game can be compiled and ran via terminal using a simple Makefile script
+
+If you wish to use a more time efficient **matrix structure** for the board use the command:
 
 ```bash
-make
+make MATRIX
+./battleship
+```
+
+If you wish to use a more memory efficient **PR Quadtree structure** for the board use the command:
+
+```bash
+make QUAD
 ./battleship
 ```
 
 ## Game
 
 In this first implementation the game is played with 2 players sharing the same terminal.
-You can choose to use a more time efficient Matrix structure or a more memory efficient PR QuadTree structure for the board.
+
 When you run the game you will be welcomed by the start screen
 
 ```bash
